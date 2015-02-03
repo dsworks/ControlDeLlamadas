@@ -4,36 +4,38 @@
     android:layout_height="match_parent">
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar" />
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".MainActivity">
+            android:layout_height="match_parent">
 
-            <include
-                android:id="@+id/app_bar"
-                layout="@layout/app_bar" />
-
-            <LinearLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                tools:context=".MainActivity">
+
 
                 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="4dp"
-                    card_view:cardCornerRadius="4dp"
-                    android:layout_marginBottom="15dp">
+                    card_view:cardCornerRadius="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -42,34 +44,36 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="@color/primaryColor"
+                            android:layout_height="65dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="18dp"
                                 android:text="Ciclo facturación"
-                                android:textColor="@android:color/white"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
+                                android:textSize="24sp" />
 
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/tvCicloActual"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
                                 android:text="Ciclo"
@@ -83,23 +87,15 @@
 
                 </android.support.v7.widget.CardView>
 
-
-                <!--
-                            <View
-                                android:layout_width="fill_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/primaryColor" />
-                -->
-
                 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="4dp"
-                    card_view:cardCornerRadius="4dp"
-                    android:layout_marginBottom="15dp">
+                    card_view:cardCornerRadius="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,28 +104,31 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="@color/primaryColor"
+                            android:layout_height="65dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="18dp"
                                 android:text="Tiempo consumido"
-                                android:textColor="@android:color/white"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
+                                android:textSize="24sp" />
 
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/tvMinutosConsumidos"
@@ -139,19 +138,18 @@
                                 android:gravity="right"
                                 android:text="Minut" />
 
+                            <ProgressBar
+                                android:id="@+id/progressBar"
+                                style="@android:style/Widget.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
                         </LinearLayout>
 
-                        <ProgressBar
-                            android:id="@+id/progressBar"
-                            style="@android:style/Widget.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp" />
-
                     </LinearLayout>
-
 
                 </android.support.v7.widget.CardView>
 
@@ -159,11 +157,12 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="4dp"
-                    card_view:cardCornerRadius="4dp"
-                    android:layout_marginBottom="15dp">
+                    card_view:cardCornerRadius="4dp">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -172,21 +171,24 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="@color/primaryColor"
+                            android:layout_height="65dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="18dp"
                                 android:text="Llamadas"
-                                android:textColor="@android:color/white"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
+                                android:textSize="24sp" />
 
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -278,9 +280,7 @@
 
                         </LinearLayout>
 
-
                     </LinearLayout>
-
 
                 </android.support.v7.widget.CardView>
 
@@ -288,11 +288,12 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="4dp"
-                    card_view:cardCornerRadius="4dp"
-                    android:layout_marginBottom="15dp">
+                    card_view:cardCornerRadius="4dp">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -301,21 +302,24 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="@color/primaryColor"
+                            android:layout_height="65dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="18dp"
                                 android:text="Minutos"
-                                android:textColor="@android:color/white"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
+                                android:textSize="24sp" />
 
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -346,7 +350,7 @@
                                     android:text="Tiempo en llamadas recibidas"
                                     android:textSize="16sp" />
 
-                                </LinearLayout>
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -375,6 +379,93 @@
                             </LinearLayout>
 
 
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:elevation="4dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="18dp"
+                                android:text="Contacto que más te llama"
+                                android:textSize="24sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <!--Aquí va la foto del contacto-->
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/numTopEntrante"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/totalLlamadasTopEntrante"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/totalMinutosTopEntrante"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -383,6 +474,96 @@
 
 
                 </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:elevation="4dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="17dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="18dp"
+                                android:text="Contacto al que más llamas"
+                                android:textSize="24sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/primaryColor" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <!--Aquí va la foto del contacto-->
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/numTopSaliente"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/totalLlamadasTopSaliente"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/totalMinutosTopSaliente"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
 
             </LinearLayout>
 
@@ -395,10 +576,10 @@
                             android:layout_marginTop="10dp" />
             -->
 
-        </LinearLayout>
 
+        </ScrollView>
 
-    </ScrollView>
+    </LinearLayout>
 
 
 </com.dsole.controldellamadas.MySwipeRefreshLayout>
