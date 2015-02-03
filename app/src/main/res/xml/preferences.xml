@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+            <EditTextPreference
+                android:key="PREF_DIA_CICLO"
+                android:summary="Elija el día en el que empezará cada ciclo"
+                android:title="Día ciclo"
+                android:inputType="number"/>
+
+                <EditTextPreference
+                android:key="PREF_LIMITE_MINUTOS"
+                android:summary="Defina el límite de minutos que tiene contratado al mes"
+                android:title="Límite minutos al mes"
+                android:inputType="number"/>
+
+                <EditTextPreference
+                    android:key="PREF_AVISO_LIMITE_MINUTOS"
+                    android:summary="Defina los minutos a partir de cuando quiere que se le notifique que se acerca al límite"
+                    android:title="Aviso límite minutos"
+                    android:inputType="number"/>
+            -->
+
+    <com.dsole.controldellamadas.NumberPickerDiaCicloPreference
+        android:key="PREF_DIA_CICLO"
+        android:summary="Elija el día en el que empezará cada ciclo"
+        android:title="Día ciclo facturación"/>
+
+    <com.dsole.controldellamadas.NumberPickerLimiteMinutosPreference
+        android:key="PREF_LIMITE_MINUTOS"
+        android:summary="Defina el límite de minutos que tiene contratado al mes"
+        android:title="Límite minutos al mes"
+        android:dialogMessage="Minutos" />
+
+    <com.dsole.controldellamadas.NumberPickerAvisoMinutosPreference
+        android:key="PREF_AVISO_LIMITE_MINUTOS"
+        android:summary="Defina los minutos a partir de cuando quiere que se le notifique que se acerca al límite"
+        android:title="Aviso límite minutos"
+        android:dialogMessage="Minutos"
+        />
+
+</PreferenceScreen>
