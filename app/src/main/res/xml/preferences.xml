@@ -26,6 +26,12 @@
         android:summary="Elija el día en el que empezará cada ciclo"
         android:title="Día ciclo facturación"/>
 
+    <CheckBoxPreference
+        android:key="PREF_ENVIAR_NOTIFICACIONES"
+        android:summary="Elija si desea que la aplicación le envíe notificaciones"
+        android:title="Enviar notificaciones"
+        android:defaultValue="true"/>
+
     <com.dsole.controldellamadas.NumberPickerLimiteMinutosPreference
         android:key="PREF_LIMITE_MINUTOS"
         android:summary="Defina el límite de minutos que tiene contratado al mes"

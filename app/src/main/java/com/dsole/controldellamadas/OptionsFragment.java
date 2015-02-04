@@ -61,14 +61,31 @@ public class OptionsFragment extends PreferenceFragment implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //String summaryStr = sharedPreferences.g
-        Preference pref = findPreference(key);
-        //String summary = (String) pref.getSummary();
 
-        String valor = sharedPreferences.getString(key, "");
+        if(!key.equalsIgnoreCase("PREF_ENVIAR_NOTIFICACIONES")) {
+            Preference pref = findPreference(key);
+            String valor = sharedPreferences.getString(key, "");
 
-        String summary = getSummary(key, valor);
+            String summary = getSummary(key, valor);
 
-        pref.setSummary(summary);
+            pref.setSummary(summary);
+        } else {
+            if(sharedPreferences.getBoolean(key, true)) {
+                Preference pref = findPreference("PREF_LIMITE_MINUTOS");
+                pref.setEnabled(true);
+                pref = findPreference("PREF_AVISO_LIMITE_MINUTOS");
+                pref.setEnabled(true);
+            } else {
+                Preference pref = findPreference("PREF_LIMITE_MINUTOS");
+                pref.setEnabled(false);
+                pref = findPreference("PREF_AVISO_LIMITE_MINUTOS");
+                pref.setEnabled(false);
+            }
+        }
+
+
+
+
     }
 
     private String getSummary(String key, String valor) {

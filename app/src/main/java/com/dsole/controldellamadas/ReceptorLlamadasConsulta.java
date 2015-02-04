@@ -21,20 +21,24 @@ public class ReceptorLlamadasConsulta extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: Interceptar cuando se efectua o se recibe una llamada y comprobar límite para enviar notificación
+
         Log.d("ControlDeLlamadas", "onReceive(): " + intent.getAction().toString() + " consultando: " + consultandoLog.toString());
-        if (consultandoLog == false) {
-            consultandoLog = true;
 
-            consultarLimite(context);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-            consultandoLog = false;
+        if(sp.getBoolean("PREF_ENVIAR_NOTIFICACIONES", false)) {
+
+            if (consultandoLog == false) {
+                consultandoLog = true;
+
+                consultarLimite(context);
+
+                consultandoLog = false;
+            }
         }
     }
 
     private void consultarLimite(Context context) {
-        //todo consultar primer día de ciclo. a partir del día, consultar fecha inicio, y fecha fin
-
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         int limiteMinutos = Integer.parseInt(sp.getString("PREF_LIMITE_MINUTOS", "100"));
         int limiteAviso = Integer.parseInt(sp.getString("PREF_AVISO_LIMITE_MINUTOS", "90"));
@@ -70,7 +74,6 @@ public class ReceptorLlamadasConsulta extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_launcher);
         mBuilder.setContentTitle("Control de llamadas");
-        //todo cambiar el texto si ha superado el límite o no
         mBuilder.setContentText(texto);
         mBuilder.setTicker("Control de llamadas");
         mBuilder.setAutoCancel(true);

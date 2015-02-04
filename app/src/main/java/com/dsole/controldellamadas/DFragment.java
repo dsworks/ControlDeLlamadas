@@ -19,9 +19,10 @@ public class DFragment extends DialogFragment {
                 // Set Dialog Icon
                 .setIcon(R.drawable.ic_launcher)
                         // Set Dialog Title
-                .setTitle("Aviso")
+                .setTitle("!Bienvenido!")
                         // Set Dialog Message
-                .setMessage("Rellene las preferencias de usuario para que la aplicació le avise")
+                .setMessage("Rellene las preferencias de usuario para que la aplicación le envíe notificaciones de cuando esté a " +
+                        "punto de llegar al limite de minutos al mes")
 
                         // Positive button
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

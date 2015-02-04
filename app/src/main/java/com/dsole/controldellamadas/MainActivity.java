@@ -18,19 +18,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -54,6 +60,7 @@ public class MainActivity extends ActionBarActivity
     private TextView mTopNumeroRealizadas;
     private TextView mTopTotalLlamadasRealizadas;
     private TextView mTopTotalMinutosRealizadas;
+    private Spinner mSpinner;
 
     private ImageView mImagenContactoSaliente;
     private ImageView mImagenContactoEntrante;
@@ -62,6 +69,8 @@ public class MainActivity extends ActionBarActivity
     private SoundPool soundPool;
     private int soundID;
     private boolean loaded = false;
+
+    private int mMesSeleccionado;
 
     private SharedPreferences sp;
 
@@ -103,6 +112,23 @@ public class MainActivity extends ActionBarActivity
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        mSpinner = (Spinner) findViewById(R.id.spinner);
+
+        List<String> list = Meses.setLista();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mSpinner.setAdapter(dataAdapter);
+        addListenerOnSpinnerItemSelection();
+
+        mMesSeleccionado = Calendar.getInstance().get(Calendar.MONTH) + 1;
+
+        int posicion = Meses.setPosicionMes(dataAdapter, Calendar.getInstance().get(Calendar.MONTH) + 1);
+
+        //set the default according to value
+        mSpinner.setSelection(posicion);
+
+
         avisoPreferencias();
         //inicializarSwipeRefresh();
 
@@ -118,7 +144,9 @@ public class MainActivity extends ActionBarActivity
             DFragment dialogo = new DFragment();
             dialogo.show(getSupportFragmentManager(), "");
 
-            if (res == 0) db.insertaAviso();
+            //if (res == 0) db.insertaAviso();
+            db.insertaAviso();
+            db.actualizarAvisoPreferencias(1);
         }
 
     }
@@ -173,13 +201,19 @@ public class MainActivity extends ActionBarActivity
 
         //TODO recoger las preferencias y actuar en consecuencia
 
+        mImagenContactoSaliente.setImageBitmap(null);
+        mImagenContactoEntrante.setImageBitmap(null);
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int limiteMinutos = Integer.parseInt(sp.getString("PREF_LIMITE_MINUTOS", "100"));
         int limiteAviso = Integer.parseInt(sp.getString("PREF_AVISO_LIMITE_MINUTOS", "90"));
         int primerDiaCiclo = Integer.parseInt(sp.getString("PREF_DIA_CICLO", "1"));
 
-        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
-        String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
+        //String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
+        //String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
+
+        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
+        String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
 
         int segundosConsumidos = CallLogHelper.getSegundosConsumidos(getContentResolver(), fechaInicio, fechaFinal);
 
@@ -221,7 +255,8 @@ public class MainActivity extends ActionBarActivity
         mTopNumeroRecibidas.setText(topContactoEntrante.getNumero());
 
         String aux = "";
-        if(topContactoEntrante.getTotalLlamadas() == 1) aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + " llamada";
+        if (topContactoEntrante.getTotalLlamadas() == 1)
+            aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + " llamada";
         else aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + " llamadas";
 
         mTopTotalLlamadasRecibidas.setText(aux);
@@ -230,16 +265,19 @@ public class MainActivity extends ActionBarActivity
         mTopNombreRealizadas.setText(topContactoSaliente.getNombre());
         mTopNumeroRealizadas.setText(topContactoSaliente.getNumero());
 
-        if(topContactoEntrante.getImagen() != null)  mImagenContactoEntrante.setImageBitmap(getRoundedShape(topContactoEntrante.getImagen()));
+        if (topContactoEntrante.getImagen() != null)
+            mImagenContactoEntrante.setImageBitmap(getRoundedShape(topContactoEntrante.getImagen()));
 
         aux = "";
-        if(topContactoSaliente.getTotalLlamadas() == 1) aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamada";
+        if (topContactoSaliente.getTotalLlamadas() == 1)
+            aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamada";
         else aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamadas";
 
         mTopTotalLlamadasRealizadas.setText(aux);
         mTopTotalMinutosRealizadas.setText(topContactoSaliente.getTotalMinutos());
 
-        if(topContactoSaliente.getImagen() != null)  mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoSaliente.getImagen()));
+        if (topContactoSaliente.getImagen() != null)
+            mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoSaliente.getImagen()));
 
 /*
         callLogs = CallLogHelper.getAllCallLogs(getContentResolver(), fechaInicio, fechaFinal);
@@ -249,10 +287,13 @@ public class MainActivity extends ActionBarActivity
     }
 
     private Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
-        int targetWidth = (int) scaleBitmapImage.getWidth()/2;
-        int targetHeight = (int) scaleBitmapImage.getHeight()/2;
+        //int targetWidth = (int) scaleBitmapImage.getWidth();
+        //int targetHeight = (int) scaleBitmapImage.getHeight();
+
+        int targetWidth = 190;
+        int targetHeight = 189;
         Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
-                targetHeight,Bitmap.Config.ARGB_8888);
+                targetHeight, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(targetBitmap);
         Path path = new Path();
@@ -332,11 +373,36 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
+        /*
         //Para que el aviso del principio no vuelva a salir
         MySQLiteHelper db = new MySQLiteHelper(this);
         if (db.getPreferenciasModificadas() != 2) db.actualizarAvisoPreferencias(1);
-
+        */
         //TODO recoger las preferencias y actuar en consecuencia
+
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        mSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            mMesSeleccionado = Meses.setPosicionMes(parent.getItemAtPosition(pos).toString());
+            loadData();
+            /*
+            Toast.makeText(parent.getContext(),
+                    "Visualizando el mes de " + parent.getItemAtPosition(pos).toString(),
+                    Toast.LENGTH_LONG).show();
+            */
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
 
     }
 }

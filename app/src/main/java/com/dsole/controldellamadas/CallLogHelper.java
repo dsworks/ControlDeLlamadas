@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -287,7 +289,7 @@ public class CallLogHelper {
     }
 
     public static Contacto getTopContacto(ContentResolver cr, String fechaInicio, String fechaFinal, String tipo) {
-        String strOrder = android.provider.CallLog.Calls.DURATION + " DESC";
+        String strOrder = android.provider.CallLog.Calls.NUMBER + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
 
         fechaInicio = fechaInicio + " 00:00:00";
@@ -317,17 +319,70 @@ public class CallLogHelper {
 
         Cursor cur = cr.query(callUri, null, where, null, strOrder);
 
-        Contacto contacto = new Contacto();
+
+        ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+
+        //Contacto contacto = new Contacto();
 
         cur.moveToFirst();
+
+        String numeroUltimo = "primeraVez";
+        String numero = "";
+        String nombre = "";
+        int segundos = 0;
+        int numLlamadas = 0;
         while (!cur.isAfterLast()) {
-            contacto.setNumero(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
-            contacto.setNombre(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)));
-            int segundos = cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION));
 
-            contacto.setTotalMinutos(Ciclo.format2Minutos(segundos));
+            numero = cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
 
-            String contactId = getContactId(cr, contacto.getNumero());
+            if (numeroUltimo != "primeraVez") {
+                if (!numero.equals(numeroUltimo)) {
+                    Contacto contacto = new Contacto();
+
+                    contacto.setNumero(numeroUltimo);
+                    contacto.setNombre(nombre);
+                    contacto.setTotalSegundos(segundos);
+                    contacto.setTotalLlamadas(numLlamadas);
+
+                    contactos.add(contacto);
+
+                    numLlamadas = 0;
+                    segundos = 0;
+                }
+            }
+
+            nombre = cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME));
+            segundos += cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION));
+            numLlamadas++;
+
+            numeroUltimo = numero;
+            cur.moveToNext();
+
+            if(cur.isAfterLast()) {
+                Contacto contacto = new Contacto();
+
+                contacto.setNumero(numeroUltimo);
+                contacto.setNombre(nombre);
+                contacto.setTotalSegundos(segundos);
+                contacto.setTotalLlamadas(numLlamadas);
+
+                contactos.add(contacto);
+            }
+        }
+
+
+        Collections.sort(contactos, new Comparator<Contacto>() {
+            public int compare(Contacto c1, Contacto c2) {
+                return c2.getTotalLlamadasString().compareTo(c1.getTotalLlamadasString());
+            }
+        });
+
+        Contacto contactoEncontrado = new Contacto();
+
+        if(contactos.size()!=0) {
+
+            contactoEncontrado = contactos.get(0);
+            String contactId = getContactId(cr, contactoEncontrado.getNumero());
 
             if(contactId != "") {
                 Bitmap photo = null;
@@ -342,35 +397,24 @@ public class CallLogHelper {
 
                     if (inputStream != null) {
                         photo = BitmapFactory.decodeStream(inputStream);
-                        contacto.setImagen(photo);
+                        contactoEncontrado.setImagen(photo);
 
                         assert inputStream != null;
                         inputStream.close();
                     }
-
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            break;
-        }
-
-        int totalLlamadas = 0;
-        String totalMinutos = "";
-        if(contacto.getNumero() != "") {
-            totalLlamadas = getTotalLlamadasContacto(cr, fechaInicio, fechaFinal, contacto.getNumero(), tipo);
-            totalMinutos = getTotalMinutosContacto(cr, fechaInicio, fechaFinal, contacto.getNumero(), tipo);
+            contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(contactoEncontrado.getTotalSegundos()));
         } else {
-            totalMinutos = Ciclo.formatSegundos(0);
+            contactoEncontrado.setNombre("");
+            contactoEncontrado.setNumero("");
+            contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(0));
         }
 
-        contacto.setTotalLlamadas(totalLlamadas);
-        contacto.setTotalMinutos(totalMinutos);
-
-        return contacto;
+        return contactoEncontrado;
     }
 
     public static String getTotalMinutosContacto(ContentResolver cr, String fechaInicio, String fechaFinal, String numero, String tipo) {
@@ -477,7 +521,7 @@ public class CallLogHelper {
         String contactId = "";
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID};
+        String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID};
 
         Cursor cursor =
                 cr.query(
@@ -487,7 +531,7 @@ public class CallLogHelper {
                         null,
                         null);
 
-        if(cursor!=null) {
+        if (cursor != null) {
             while (cursor.moveToNext()) {
                 //String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup.DISPLAY_NAME));
                 contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
