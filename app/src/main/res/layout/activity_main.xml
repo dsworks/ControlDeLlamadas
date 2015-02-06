@@ -62,8 +62,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_today_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -72,9 +80,11 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Ciclo facturación"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
 
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -135,8 +145,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_query_builder_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -145,9 +163,10 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Tiempo consumido"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
-
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -202,8 +221,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_perm_phone_msg_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -212,9 +239,10 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Llamadas"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
-
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -333,8 +361,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_settings_phone_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -343,9 +379,11 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Minutos"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
 
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -434,8 +472,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_account_circle_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -444,9 +490,11 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto que más te llama"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
 
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -536,8 +584,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_account_circle_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -546,9 +602,10 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto al que más llamas"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
-
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -639,8 +696,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_swap_vert_black_48dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -649,9 +714,11 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Llamada más larga"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp" />
 
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -738,9 +805,6 @@
 
 
     </ScrollView>
-
-
-
 
 
 </RelativeLayout>

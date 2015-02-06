@@ -30,6 +30,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    //region Declaraciones
     //private TextView mTexto;
     private ListView mListView;
     private ArrayList<CallLog> callLogs;
@@ -68,6 +69,7 @@ public class MainActivity extends ActionBarActivity
     private SharedPreferences sp;
 
     private android.support.v7.widget.Toolbar toolbar;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +82,6 @@ public class MainActivity extends ActionBarActivity
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
-
-
-        //int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
-        //Outline outline = new Outline();
-        //outline.setOval(0, 0, 10, 10);
-        //Button searchButton = (Button) findViewById(R.id.search_button);
-        //searchButton.setOutline(outline);
-        //searchButton.setClipToOutline(true);
-
 
         mLlamadasEntrantes = (TextView) findViewById(R.id.tvLlamadasEntrantes);
         mLlamadasSalientes = (TextView) findViewById(R.id.tvLlamadasSalientes);
@@ -132,11 +125,8 @@ public class MainActivity extends ActionBarActivity
 
         mMesSeleccionado = Calendar.getInstance().get(Calendar.MONTH) + 1;
 
-        int posicion = Meses.setPosicionMes(dataAdapter, Calendar.getInstance().get(Calendar.MONTH) + 1);
-
-        //set the default according to value
+        int posicion = Meses.setPosicionMes(dataAdapter, mMesSeleccionado);
         mSpinner.setSelection(posicion);
-
 
         avisoPreferencias();
         //inicializarSwipeRefresh();
@@ -155,55 +145,70 @@ public class MainActivity extends ActionBarActivity
             db.insertaAviso();
             db.actualizarAvisoPreferencias(1);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //sp.registerOnSharedPreferenceChangeListener(this);
+        loadData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //sp.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //TODO guardar lo necesario para cuando giremos la pantalla o android decida finalizar nuestra aplicacion, poder recuperarlo posteriormente
+        //outState.putString("CUENTA", cuenta.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //TODO recuperar todo lo necesario
+        //cuenta.setText(savedInstanceState.getString("CUENTA"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent i = new Intent(MainActivity.this, PreferenceActivity.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        /*
+        //Para que el aviso del principio no vuelva a salir
+        MySQLiteHelper db = new MySQLiteHelper(this);
+        if (db.getPreferenciasModificadas() != 2) db.actualizarAvisoPreferencias(1);
+        */
+        //TODO recoger las preferencias y actuar en consecuencia
 
     }
 
-    /*
-        private void inicializarSwipeRefresh() {
-            swipeRefresh = (MySwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    //Refresca el contenido de la pantalla usando el SwipeRefreshLayout
-                    // Reproduccion de sonido
-                    if (loaded) {
-                        soundPool.play(soundID, 0.3f, 0.3f, 1, 0, 1f);
-                    }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadData();
-                            // Finalizar swipeRefresh
-                            swipeRefresh.setRefreshing(false);
-                        }
-                    }, 1000);
-                }
-            });
-            swipeRefresh.setColorScheme(android.R.color.holo_blue_dark,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_green_dark,
-                    android.R.color.holo_red_light);
-
-            //swipeRefresh.setOnChildScrollUpListener(new MySwipeRefreshLayout.OnChildScrollUpListener() {
-            //    @Override
-            //    public boolean canChildScrollUp() {
-            //        return mListView.getFirstVisiblePosition() > 0 ||
-            //                mListView.getChildAt(0) == null ||
-            //                mListView.getChildAt(0).getTop() < 0;
-            //    }
-            //});
-
-            // Extra: sonido al actualizar con SwipeRefreshLayout
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-            soundID = soundPool.load(this, R.raw.ping, 1);
-
-            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    loaded = true;
-                }
-            });
-        }
-    */
     public void loadData() {
 
         //TODO recoger las preferencias y actuar en consecuencia
@@ -331,99 +336,65 @@ public class MainActivity extends ActionBarActivity
         return targetBitmap;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //sp.registerOnSharedPreferenceChangeListener(this);
-        loadData();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //sp.unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //TODO guardar lo necesario para cuando giremos la pantalla o android decida finalizar nuestra aplicacion, poder recuperarlo posteriormente
-        //outState.putString("CUENTA", cuenta.getText().toString());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //TODO recuperar todo lo necesario
-        //cuenta.setText(savedInstanceState.getString("CUENTA"));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(MainActivity.this, PreferenceActivity.class);
-            startActivity(i);
-            return true;
-        }
-/*
-        if (id == R.id.action_search) {
-
-            Toast.makeText(getApplicationContext(),
-                    "Llamar a la pantalla de búsqueda",
-                    Toast.LENGTH_LONG).show();
-            return true;
-        }
-*/
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-        /*
-        //Para que el aviso del principio no vuelva a salir
-        MySQLiteHelper db = new MySQLiteHelper(this);
-        if (db.getPreferenciasModificadas() != 2) db.actualizarAvisoPreferencias(1);
-        */
-        //TODO recoger las preferencias y actuar en consecuencia
-
-    }
-
     public void addListenerOnSpinnerItemSelection() {
         mSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
 
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
-
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
             mMesSeleccionado = Meses.setPosicionMes(parent.getItemAtPosition(pos).toString());
             loadData();
-            /*
-            Toast.makeText(parent.getContext(),
-                    "Visualizando el mes de " + parent.getItemAtPosition(pos).toString(),
-                    Toast.LENGTH_LONG).show();
-            */
-
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
         }
-
     }
+
+    /*
+        private void inicializarSwipeRefresh() {
+            swipeRefresh = (MySwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //Refresca el contenido de la pantalla usando el SwipeRefreshLayout
+                    // Reproduccion de sonido
+                    if (loaded) {
+                        soundPool.play(soundID, 0.3f, 0.3f, 1, 0, 1f);
+                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadData();
+                            // Finalizar swipeRefresh
+                            swipeRefresh.setRefreshing(false);
+                        }
+                    }, 1000);
+                }
+            });
+            swipeRefresh.setColorScheme(android.R.color.holo_blue_dark,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_green_dark,
+                    android.R.color.holo_red_light);
+
+            //swipeRefresh.setOnChildScrollUpListener(new MySwipeRefreshLayout.OnChildScrollUpListener() {
+            //    @Override
+            //    public boolean canChildScrollUp() {
+            //        return mListView.getFirstVisiblePosition() > 0 ||
+            //                mListView.getChildAt(0) == null ||
+            //                mListView.getChildAt(0).getTop() < 0;
+            //    }
+            //});
+
+            // Extra: sonido al actualizar con SwipeRefreshLayout
+            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            soundID = soundPool.load(this, R.raw.ping, 1);
+
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                    loaded = true;
+                }
+            });
+        }
+    */
 }
