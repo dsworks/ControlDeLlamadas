@@ -5,22 +5,36 @@
     android:layout_height="match_parent">
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context="com.dsole.controldellamadas.MainActivity">
+
+    <ImageButton
+        android:id="@+id/search_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/oval_ripple"
+        android:elevation="5dp"
+        android:src="@android:drawable/ic_search_category_default"
+        android:stateListAnimator="@anim/button_elevation"
+        android:tint="@android:color/white" />
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
 
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -80,10 +94,9 @@
                             android:orientation="horizontal">
 
                             <Spinner
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/spinner"
-                                />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tvCicloActual"
@@ -95,7 +108,6 @@
                                 android:textSize="16sp" />
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -236,7 +248,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
 
-                                android:text="Entrantes"
+                                android:text="Recibidas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -263,7 +275,7 @@
 
 
                                 android:layout_gravity="center"
-                                android:text="Salientes"
+                                android:text="Realizadas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -456,10 +468,10 @@
 
                             <!--Aquí va la foto del contacto-->
                             <ImageView
+                                android:id="@+id/imagenContactoEntrante"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/imagenContactoEntrante"
-                                android:layout_gravity="center"/>
+                                android:layout_gravity="center" />
 
                         </LinearLayout>
 
@@ -558,11 +570,11 @@
 
                             <!--Aquí va la foto del contacto-->
                             <ImageView
+                                android:id="@+id/imagenContactoSaliente"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:adjustViewBounds="true"
-                                android:id="@+id/imagenContactoSaliente"
-                                android:layout_gravity="center"/>
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true" />
 
                         </LinearLayout>
 
@@ -610,10 +622,109 @@
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="4dp"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="17dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="18dp"
+                            android:text="Llamada más larga"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/primaryColor" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <!--Aquí va la foto del contacto-->
+                            <ImageView
+                                android:id="@+id/imagenContactoMasMinutos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/nombreTopMasMinutos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/numTopMasMinutos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/totalMinutosTopMasMinutos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp" />
+
+
         </LinearLayout>
 
         <!--
@@ -630,7 +741,9 @@
 
 
 
-</LinearLayout>
+
+
+</RelativeLayout>
 
     <!--
     </com.dsole.controldellamadas.MySwipeRefreshLayout>

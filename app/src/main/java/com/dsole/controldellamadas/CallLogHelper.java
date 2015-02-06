@@ -358,7 +358,7 @@ public class CallLogHelper {
             numeroUltimo = numero;
             cur.moveToNext();
 
-            if(cur.isAfterLast()) {
+            if (cur.isAfterLast()) {
                 Contacto contacto = new Contacto();
 
                 contacto.setNumero(numeroUltimo);
@@ -379,12 +379,12 @@ public class CallLogHelper {
 
         Contacto contactoEncontrado = new Contacto();
 
-        if(contactos.size()!=0) {
+        if (contactos.size() != 0) {
 
             contactoEncontrado = contactos.get(0);
             String contactId = getContactId(cr, contactoEncontrado.getNumero());
 
-            if(contactId != "") {
+            if (contactId != "") {
                 Bitmap photo = null;
 
                 try {
@@ -393,7 +393,7 @@ public class CallLogHelper {
 
                     long id = Long.valueOf(contactId).longValue();
                     InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(cr,
-                            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id),true);
+                            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id), true);
 
                     if (inputStream != null) {
                         photo = BitmapFactory.decodeStream(inputStream);
@@ -415,6 +415,87 @@ public class CallLogHelper {
         }
 
         return contactoEncontrado;
+    }
+
+    public static Contacto getTopContactoMasMinutos(ContentResolver cr, String fechaInicio, String fechaFinal) {
+        String strOrder = android.provider.CallLog.Calls.DURATION + " DESC";
+        Uri callUri = Uri.parse("content://call_log/calls");
+
+        fechaInicio = fechaInicio + " 00:00:00";
+        fechaFinal = fechaFinal + " 23:59:59";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        Date date2 = null;
+        try {
+            date = sdf.parse(fechaInicio);
+            date2 = sdf.parse(fechaFinal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dInicial = String.valueOf(date.getTime());
+        String dFinal = String.valueOf(date2.getTime());
+
+        String where = android.provider.CallLog.Calls.DATE + ">=" + dInicial + " AND " +
+                android.provider.CallLog.Calls.DATE + "<=" + dFinal;
+
+        Cursor cur = cr.query(callUri, null, where, null, strOrder);
+
+        Contacto contacto = new Contacto();
+
+        cur.moveToFirst();
+
+        while (!cur.isAfterLast()) {
+
+            contacto.setNombre(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)));
+            contacto.setNumero(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
+            contacto.setTotalSegundos(cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
+            break;
+        }
+
+        if (contacto.getNumero() != "") {
+
+            //saber el número de llamadas de un contacto
+
+            //int totalLlamadasRealizadas = getTotalLlamadasContacto(cr, fechaInicio, fechaFinal, contacto.getNumero(), "SALIENTE");
+            //int totalLlamadasRecibidas = getTotalLlamadasContacto(cr, fechaInicio, fechaFinal, contacto.getNumero(), "ENTRANTE");
+
+            //contacto.setTotalLlamadas(totalLlamadasRealizadas+totalLlamadasRecibidas);
+
+            String contactId = getContactId(cr, contacto.getNumero());
+
+            if (contactId != "") {
+                Bitmap photo = null;
+
+                try {
+                    //Cursor cur2 = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                    //        null, null, null,null);
+
+                    long id = Long.valueOf(contactId).longValue();
+                    InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(cr,
+                            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id), true);
+
+                    if (inputStream != null) {
+                        photo = BitmapFactory.decodeStream(inputStream);
+                        contacto.setImagen(photo);
+
+                        assert inputStream != null;
+                        inputStream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            contacto.setTotalMinutos(Ciclo.formatSegundos(contacto.getTotalSegundos()));
+        } else {
+            contacto.setNumero("");
+            contacto.setNombre("");
+            contacto.setTotalMinutos(Ciclo.formatSegundos(0));
+        }
+
+        return contacto;
     }
 
     public static String getTotalMinutosContacto(ContentResolver cr, String fechaInicio, String fechaFinal, String numero, String tipo) {

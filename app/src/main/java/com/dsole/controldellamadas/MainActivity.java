@@ -3,15 +3,11 @@ package com.dsole.controldellamadas;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.media.AudioManager;
-import android.media.Image;
 import android.media.SoundPool;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -19,20 +15,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,12 +47,16 @@ public class MainActivity extends ActionBarActivity
     private TextView mTopTotalMinutosRecibidas;
     private TextView mTopNombreRealizadas;
     private TextView mTopNumeroRealizadas;
+    private TextView mTopNombreMasMinutos;
+    private TextView mTopNumeroMasMinutos;
     private TextView mTopTotalLlamadasRealizadas;
     private TextView mTopTotalMinutosRealizadas;
+    private TextView mTopTotalMinutosMasMinutos;
     private Spinner mSpinner;
 
     private ImageView mImagenContactoSaliente;
     private ImageView mImagenContactoEntrante;
+    private ImageView mImagenContactoMasMinutos;
 
     private MySwipeRefreshLayout swipeRefresh;
     private SoundPool soundPool;
@@ -81,11 +74,21 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
+
+
+        //int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
+        //Outline outline = new Outline();
+        //outline.setOval(0, 0, 10, 10);
+        //Button searchButton = (Button) findViewById(R.id.search_button);
+        //searchButton.setOutline(outline);
+        //searchButton.setClipToOutline(true);
+
 
         mLlamadasEntrantes = (TextView) findViewById(R.id.tvLlamadasEntrantes);
         mLlamadasSalientes = (TextView) findViewById(R.id.tvLlamadasSalientes);
@@ -103,8 +106,14 @@ public class MainActivity extends ActionBarActivity
         mTopTotalLlamadasRealizadas = (TextView) findViewById(R.id.totalLlamadasTopSaliente);
         mTopTotalMinutosRealizadas = (TextView) findViewById(R.id.totalMinutosTopSaliente);
 
+
+        mTopNombreMasMinutos = (TextView) findViewById(R.id.nombreTopMasMinutos);
+        mTopNumeroMasMinutos = (TextView) findViewById(R.id.numTopMasMinutos);
+        mTopTotalMinutosMasMinutos = (TextView) findViewById(R.id.totalMinutosTopMasMinutos);
+
         mImagenContactoSaliente = (ImageView) findViewById(R.id.imagenContactoSaliente);
         mImagenContactoEntrante = (ImageView) findViewById(R.id.imagenContactoEntrante);
+        mImagenContactoMasMinutos = (ImageView) findViewById(R.id.imagenContactoMasMinutos);
 
         //mListView = (ListView) findViewById(R.id.listView);
         mMinutosConsumidos = (TextView) findViewById(R.id.tvMinutosConsumidos);
@@ -135,8 +144,6 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void avisoPreferencias() {
-        //TODO, revisar si ha modificado al menos una vez las preferencias
-
         MySQLiteHelper db = new MySQLiteHelper(this);
 
         int res = db.getPreferenciasModificadas();
@@ -223,7 +230,7 @@ public class MainActivity extends ActionBarActivity
 
         mCicloActual.setText("Ciclo actual " + Ciclo.formatFecha(fechaInicio, fechaFinal));
 
-        int color = Color.GREEN;
+        int color;
         if (segundosConsumidos < limiteAviso * 60) {
             color = Color.GREEN;
         } else if (segundosConsumidos >= limiteAviso * 60 && segundosConsumidos < limiteMinutos * 60) {
@@ -233,8 +240,10 @@ public class MainActivity extends ActionBarActivity
         }
 
         mProgressBar.setMax(limiteMinutos * 60);
-        mProgressBar.setBackgroundColor(color);
+        //mProgressBar.setBackgroundColor(color);
+        //mProgressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         mProgressBar.setProgress(segundosConsumidos);
+
 
         int[] llamadas = CallLogHelper.getTotalTipoLlamadas(getContentResolver(), fechaInicio, fechaFinal);
 
@@ -279,6 +288,17 @@ public class MainActivity extends ActionBarActivity
         if (topContactoSaliente.getImagen() != null)
             mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoSaliente.getImagen()));
 
+
+        Contacto topContactoMasMinutos = CallLogHelper.getTopContactoMasMinutos(getContentResolver(), fechaInicio, fechaFinal);
+
+        mTopNombreMasMinutos.setText(topContactoMasMinutos.getNombre());
+        mTopNumeroMasMinutos.setText(topContactoMasMinutos.getNumero());
+
+        mTopTotalMinutosMasMinutos.setText(topContactoMasMinutos.getTotalMinutos());
+
+        if (topContactoMasMinutos.getImagen() != null)
+            mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoMasMinutos.getImagen()));
+
 /*
         callLogs = CallLogHelper.getAllCallLogs(getContentResolver(), fechaInicio, fechaFinal);
         CallLogAdapter adapter = new CallLogAdapter(getApplicationContext(), R.layout.listview, callLogs);
@@ -304,10 +324,9 @@ public class MainActivity extends ActionBarActivity
                 Path.Direction.CCW);
 
         canvas.clipPath(path);
-        Bitmap sourceBitmap = scaleBitmapImage;
-        canvas.drawBitmap(sourceBitmap,
-                new Rect(0, 0, sourceBitmap.getWidth(),
-                        sourceBitmap.getHeight()),
+        canvas.drawBitmap(scaleBitmapImage,
+                new Rect(0, 0, scaleBitmapImage.getWidth(),
+                        scaleBitmapImage.getHeight()),
                 new Rect(0, 0, targetWidth, targetHeight), null);
         return targetBitmap;
     }
@@ -359,13 +378,15 @@ public class MainActivity extends ActionBarActivity
             startActivity(i);
             return true;
         }
+/*
+        if (id == R.id.action_search) {
 
-        if (id == R.id.action_refresh) {
-
-            loadData();
+            Toast.makeText(getApplicationContext(),
+                    "Llamar a la pantalla de búsqueda",
+                    Toast.LENGTH_LONG).show();
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 
