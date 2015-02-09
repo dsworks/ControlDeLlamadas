@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.classes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

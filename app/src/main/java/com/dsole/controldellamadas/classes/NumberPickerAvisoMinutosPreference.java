@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.classes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import com.dsole.controldellamadas.R;
 
 /**
  * Created by dsole on 29/01/2015.

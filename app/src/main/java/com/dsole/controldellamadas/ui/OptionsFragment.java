@@ -1,11 +1,13 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.widget.EditText;
+
+import com.dsole.controldellamadas.db.MySQLiteHelper;
+import com.dsole.controldellamadas.R;
 
 /**
  * Created by dsole on 08/01/2015.

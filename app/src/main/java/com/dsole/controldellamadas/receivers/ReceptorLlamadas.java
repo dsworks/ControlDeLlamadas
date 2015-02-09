@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.dsole.controldellamadas.listeners.MyPhoneStateListener;
 
 public class ReceptorLlamadas extends BroadcastReceiver {
 

@@ -1,15 +1,14 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.media.SoundPool;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,11 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.dsole.controldellamadas.classes.CallLog;
+import com.dsole.controldellamadas.db.CallLogHelper;
+import com.dsole.controldellamadas.classes.Ciclo;
+import com.dsole.controldellamadas.classes.DFragment;
+import com.dsole.controldellamadas.classes.Meses;
+import com.dsole.controldellamadas.db.MySQLiteHelper;
+import com.dsole.controldellamadas.classes.MySwipeRefreshLayout;
+import com.dsole.controldellamadas.R;
+import com.dsole.controldellamadas.classes.Contacto;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +41,6 @@ public class MainActivity extends ActionBarActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     //region Declaraciones
-    //private TextView mTexto;
     private ListView mListView;
     private ArrayList<CallLog> callLogs;
     private ProgressBar mProgressBar;
@@ -53,11 +62,18 @@ public class MainActivity extends ActionBarActivity
     private TextView mTopTotalLlamadasRealizadas;
     private TextView mTopTotalMinutosRealizadas;
     private TextView mTopTotalMinutosMasMinutos;
+    private TextView mTopNombreMasRato;
+    private TextView mTopNumeroMasRato;
+    private TextView mTopTotalMinutosMasRato;
+    private TextView mTopTotalLlamadasMasRato;
     private Spinner mSpinner;
 
     private ImageView mImagenContactoSaliente;
     private ImageView mImagenContactoEntrante;
     private ImageView mImagenContactoMasMinutos;
+    private ImageView mImagenContactoMasRato;
+
+    private ImageButton mBusquedas;
 
     private MySwipeRefreshLayout swipeRefresh;
     private SoundPool soundPool;
@@ -76,12 +92,13 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
+
+        mBusquedas = (ImageButton) findViewById(R.id.search_button);
 
         mLlamadasEntrantes = (TextView) findViewById(R.id.tvLlamadasEntrantes);
         mLlamadasSalientes = (TextView) findViewById(R.id.tvLlamadasSalientes);
@@ -99,14 +116,19 @@ public class MainActivity extends ActionBarActivity
         mTopTotalLlamadasRealizadas = (TextView) findViewById(R.id.totalLlamadasTopSaliente);
         mTopTotalMinutosRealizadas = (TextView) findViewById(R.id.totalMinutosTopSaliente);
 
-
         mTopNombreMasMinutos = (TextView) findViewById(R.id.nombreTopMasMinutos);
         mTopNumeroMasMinutos = (TextView) findViewById(R.id.numTopMasMinutos);
         mTopTotalMinutosMasMinutos = (TextView) findViewById(R.id.totalMinutosTopMasMinutos);
 
+        mTopNombreMasRato = (TextView) findViewById(R.id.nombreTopMasRato);
+        mTopNumeroMasRato = (TextView) findViewById(R.id.numTopMasRato);
+        mTopTotalMinutosMasRato = (TextView) findViewById(R.id.totalMinutosTopMasRato);
+        mTopTotalLlamadasMasRato = (TextView) findViewById(R.id.totalLlamadasTopMasRato);
+
         mImagenContactoSaliente = (ImageView) findViewById(R.id.imagenContactoSaliente);
         mImagenContactoEntrante = (ImageView) findViewById(R.id.imagenContactoEntrante);
         mImagenContactoMasMinutos = (ImageView) findViewById(R.id.imagenContactoMasMinutos);
+        mImagenContactoMasRato = (ImageView) findViewById(R.id.imagenContactoMasRato);
 
         //mListView = (ListView) findViewById(R.id.listView);
         mMinutosConsumidos = (TextView) findViewById(R.id.tvMinutosConsumidos);
@@ -116,6 +138,13 @@ public class MainActivity extends ActionBarActivity
 
         mSpinner = (Spinner) findViewById(R.id.spinner);
 
+        mBusquedas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Busquedas.class));
+            }
+        });
+
         List<String> list = Meses.setLista();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,7 +152,8 @@ public class MainActivity extends ActionBarActivity
         mSpinner.setAdapter(dataAdapter);
         addListenerOnSpinnerItemSelection();
 
-        mMesSeleccionado = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        SharedPreferences settings = getSharedPreferences("MIS_PREFERENCIAS", Context.MODE_PRIVATE);
+        mMesSeleccionado= settings.getInt("MES_SELECCIONADO", Calendar.getInstance().get(Calendar.MONTH) + 1);
 
         int posicion = Meses.setPosicionMes(dataAdapter, mMesSeleccionado);
         mSpinner.setSelection(posicion);
@@ -151,6 +181,7 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
         //sp.registerOnSharedPreferenceChangeListener(this);
+
         loadData();
     }
 
@@ -158,20 +189,23 @@ public class MainActivity extends ActionBarActivity
     protected void onPause() {
         super.onPause();
         //sp.unregisterOnSharedPreferenceChangeListener(this);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MIS_PREFERENCIAS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putInt("MES_SELECCIONADO", mMesSeleccionado);
+        edit.commit();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //TODO guardar lo necesario para cuando giremos la pantalla o android decida finalizar nuestra aplicacion, poder recuperarlo posteriormente
-        //outState.putString("CUENTA", cuenta.getText().toString());
+        //guardar lo necesario para cuando giremos la pantalla o android decida finalizar nuestra aplicacion, poder recuperarlo posteriormente
+        //outState.putInt("MES_SELECCIONADO", mMesSeleccionado);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //TODO recuperar todo lo necesario
-        //cuenta.setText(savedInstanceState.getString("CUENTA"));
+        //mMesSeleccionado = savedInstanceState.getInt("MES_SELECCIONADO");
     }
 
     @Override
@@ -210,19 +244,10 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void loadData() {
-
-        //TODO recoger las preferencias y actuar en consecuencia
-
-        mImagenContactoSaliente.setImageBitmap(null);
-        mImagenContactoEntrante.setImageBitmap(null);
-
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int limiteMinutos = Integer.parseInt(sp.getString("PREF_LIMITE_MINUTOS", "100"));
         int limiteAviso = Integer.parseInt(sp.getString("PREF_AVISO_LIMITE_MINUTOS", "90"));
         int primerDiaCiclo = Integer.parseInt(sp.getString("PREF_DIA_CICLO", "1"));
-
-        //String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
-        //String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
 
         String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
         String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
@@ -234,7 +259,7 @@ public class MainActivity extends ActionBarActivity
         mMinutosConsumidos.setText(minutos + " de " + String.valueOf(limiteMinutos) + " m");
 
         mCicloActual.setText("Ciclo actual " + Ciclo.formatFecha(fechaInicio, fechaFinal));
-
+/*
         int color;
         if (segundosConsumidos < limiteAviso * 60) {
             color = Color.GREEN;
@@ -243,10 +268,11 @@ public class MainActivity extends ActionBarActivity
         } else {
             color = Color.RED;
         }
-
-        mProgressBar.setMax(limiteMinutos * 60);
         //mProgressBar.setBackgroundColor(color);
         //mProgressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+*/
+        mProgressBar.setMax(limiteMinutos * 60);
+
         mProgressBar.setProgress(segundosConsumidos);
 
 
@@ -264,7 +290,7 @@ public class MainActivity extends ActionBarActivity
         Contacto topContactoSaliente = CallLogHelper.getTopContacto(getContentResolver(), fechaInicio, fechaFinal, "SALIENTE");
         Contacto topContactoEntrante = CallLogHelper.getTopContacto(getContentResolver(), fechaInicio, fechaFinal, "ENTRANTE");
 
-
+        //INICIO LLAMADAS RECIBIDAS
         mTopNombreRecibidas.setText(topContactoEntrante.getNombre());
         mTopNumeroRecibidas.setText(topContactoEntrante.getNumero());
 
@@ -276,12 +302,12 @@ public class MainActivity extends ActionBarActivity
         mTopTotalLlamadasRecibidas.setText(aux);
         mTopTotalMinutosRecibidas.setText(topContactoEntrante.getTotalMinutos());
 
-        mTopNombreRealizadas.setText(topContactoSaliente.getNombre());
-        mTopNumeroRealizadas.setText(topContactoSaliente.getNumero());
-
         if (topContactoEntrante.getImagen() != null)
             mImagenContactoEntrante.setImageBitmap(getRoundedShape(topContactoEntrante.getImagen()));
+        else mImagenContactoEntrante.setImageBitmap(null);
 
+
+        //INICIO LLAMADAS REALIZADAs
         aux = "";
         if (topContactoSaliente.getTotalLlamadas() == 1)
             aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamada";
@@ -290,10 +316,15 @@ public class MainActivity extends ActionBarActivity
         mTopTotalLlamadasRealizadas.setText(aux);
         mTopTotalMinutosRealizadas.setText(topContactoSaliente.getTotalMinutos());
 
+        mTopNombreRealizadas.setText(topContactoSaliente.getNombre());
+        mTopNumeroRealizadas.setText(topContactoSaliente.getNumero());
+
         if (topContactoSaliente.getImagen() != null)
             mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoSaliente.getImagen()));
+        else mImagenContactoSaliente.setImageBitmap(null);
 
 
+        //Contacto con la llamada más larga
         Contacto topContactoMasMinutos = CallLogHelper.getTopContactoMasMinutos(getContentResolver(), fechaInicio, fechaFinal);
 
         mTopNombreMasMinutos.setText(topContactoMasMinutos.getNombre());
@@ -302,8 +333,27 @@ public class MainActivity extends ActionBarActivity
         mTopTotalMinutosMasMinutos.setText(topContactoMasMinutos.getTotalMinutos());
 
         if (topContactoMasMinutos.getImagen() != null)
-            mImagenContactoSaliente.setImageBitmap(getRoundedShape(topContactoMasMinutos.getImagen()));
+            mImagenContactoMasMinutos.setImageBitmap(getRoundedShape(topContactoMasMinutos.getImagen()));
+        else mImagenContactoMasMinutos.setImageBitmap(null);
 
+        //contacto con el que más hablas
+        Contacto topContactoMasRato = CallLogHelper.getTopContactoMasRato(getContentResolver(), fechaInicio, fechaFinal);
+
+        aux = "";
+        if (topContactoMasRato.getTotalLlamadas() == 1)
+            aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + " llamada en total";
+        else aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + " llamadas en total";
+
+        mTopTotalLlamadasMasRato.setText(aux);
+
+        mTopNombreMasRato.setText(topContactoMasRato.getNombre());
+        mTopNumeroMasRato.setText(topContactoMasRato.getNumero());
+
+        mTopTotalMinutosMasRato.setText(topContactoMasRato.getTotalMinutos() + "  en total");
+
+        if (topContactoMasRato.getImagen() != null)
+            mImagenContactoMasRato.setImageBitmap(getRoundedShape(topContactoMasRato.getImagen()));
+        else mImagenContactoMasRato.setImageBitmap(null);
 /*
         callLogs = CallLogHelper.getAllCallLogs(getContentResolver(), fechaInicio, fechaFinal);
         CallLogAdapter adapter = new CallLogAdapter(getApplicationContext(), R.layout.listview, callLogs);

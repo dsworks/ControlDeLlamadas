@@ -1,13 +1,13 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.classes;
 
 import android.graphics.Bitmap;
 
-import java.io.InputStream;
+import java.util.Comparator;
 
 /**
  * Created by dsole on 03/02/2015.
  */
-public class Contacto {
+public class Contacto implements Comparable {
 
     private Bitmap imagen;
     private String numero;
@@ -50,8 +50,10 @@ public class Contacto {
         return totalLlamadas;
     }
 
-    public String getTotalLlamadasString() {
-        return String.valueOf(totalLlamadas);
+    public static class TotalLlamadasComparator implements Comparator<Contacto> {
+        public int compare(Contacto c1, Contacto c2) {
+            return c2.getTotalLlamadas() - c1.getTotalLlamadas();
+        }
     }
 
     public String getTotalMinutos() {
@@ -60,6 +62,10 @@ public class Contacto {
 
     public int getTotalSegundos() {
         return totalSegundos;
+    }
+
+    public String getTotalSegundosString() {
+        return String.valueOf(totalSegundos);
     }
 
     public void setImagen(Bitmap imagen) {
@@ -86,5 +92,11 @@ public class Contacto {
 
     public void setTotalSegundos(int totalSegundos) {
         this.totalSegundos = totalSegundos;
+    }
+
+    @Override
+    public int compareTo(Object another) {
+        int segundos = ((Contacto) another).getTotalSegundos();
+        return segundos-this.totalSegundos;
     }
 }

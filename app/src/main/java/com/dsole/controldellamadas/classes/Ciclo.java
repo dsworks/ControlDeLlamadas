@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.classes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.receivers;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +9,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.dsole.controldellamadas.db.CallLogHelper;
+import com.dsole.controldellamadas.classes.Ciclo;
+import com.dsole.controldellamadas.ui.MainActivity;
+import com.dsole.controldellamadas.R;
 
 import java.util.Calendar;
 
@@ -44,7 +49,7 @@ public class ReceptorLlamadasConsulta extends BroadcastReceiver {
         int limiteAviso = Integer.parseInt(sp.getString("PREF_AVISO_LIMITE_MINUTOS", "90"));
         int primerDiaCiclo = Integer.parseInt(sp.getString("PREF_DIA_CICLO", "1"));
 
-        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH)+1, Calendar.getInstance().get(Calendar.YEAR));
+        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR));
         String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, Calendar.getInstance().get(Calendar.MONTH)+1, Calendar.getInstance().get(Calendar.YEAR));
 
         int i = CallLogHelper.getSobrepasadoLimite(context.getContentResolver(), limiteMinutos, limiteAviso, fechaInicio, fechaFinal);

@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.db;
 
 import android.content.ContentValues;
 import android.content.Context;

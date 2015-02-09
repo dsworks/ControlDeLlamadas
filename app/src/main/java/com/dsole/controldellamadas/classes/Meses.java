@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas;
+package com.dsole.controldellamadas.classes;
 
 import android.widget.ArrayAdapter;
 

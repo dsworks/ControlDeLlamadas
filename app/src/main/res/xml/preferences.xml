@@ -21,7 +21,7 @@
                     android:inputType="number"/>
             -->
 
-    <com.dsole.controldellamadas.NumberPickerDiaCicloPreference
+    <com.dsole.controldellamadas.classes.NumberPickerDiaCicloPreference
         android:key="PREF_DIA_CICLO"
         android:summary="Elija el día en el que empezará cada ciclo"
         android:title="Día ciclo facturación"/>
@@ -32,13 +32,13 @@
         android:title="Enviar notificaciones"
         android:defaultValue="true"/>
 
-    <com.dsole.controldellamadas.NumberPickerLimiteMinutosPreference
+    <com.dsole.controldellamadas.classes.NumberPickerLimiteMinutosPreference
         android:key="PREF_LIMITE_MINUTOS"
         android:summary="Defina el límite de minutos que tiene contratado al mes"
         android:title="Límite minutos al mes"
         android:dialogMessage="Minutos" />
 
-    <com.dsole.controldellamadas.NumberPickerAvisoMinutosPreference
+    <com.dsole.controldellamadas.classes.NumberPickerAvisoMinutosPreference
         android:key="PREF_AVISO_LIMITE_MINUTOS"
         android:summary="Defina los minutos a partir de cuando quiere que se le notifique que se acerca al límite"
         android:title="Aviso límite minutos"
