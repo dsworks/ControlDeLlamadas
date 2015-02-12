@@ -24,7 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dsole.controldellamadas.classes.CallLog;
-import com.dsole.controldellamadas.db.CallLogHelper;
+import com.dsole.controldellamadas.providers.CallLogHelper;
 import com.dsole.controldellamadas.classes.Ciclo;
 import com.dsole.controldellamadas.classes.DFragment;
 import com.dsole.controldellamadas.classes.Meses;
@@ -142,6 +142,7 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Busquedas.class));
+
             }
         });
 

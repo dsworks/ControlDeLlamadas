@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.Busquedas"
             android:label="@string/title_activity_busquedas"
@@ -31,7 +30,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
+        <activity
+            android:name=".ui.Resultados"
+            android:label="@string/title_activity_resultados"
+            android:parentActivityName=".ui.Busquedas">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Busquedas" />
+        </activity>
         <activity
             android:name=".ui.PreferenceActivity"
             android:label="@string/title_activity_preference"
@@ -53,7 +60,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receivers.ReceptorLlamadasConsulta"
             android:enabled="true"

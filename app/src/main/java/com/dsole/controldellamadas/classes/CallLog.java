@@ -1,5 +1,7 @@
 package com.dsole.controldellamadas.classes;
 
+import android.graphics.Bitmap;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -13,9 +15,10 @@ public class CallLog {
     private String time;
     private String date;
     private String type;
+    private Bitmap imagen;
 
     public CallLog(){
-
+        this.imagen = null;
     }
 
     public String getName() {
@@ -36,6 +39,10 @@ public class CallLog {
 
     public String getType() {
         return type;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
     }
 
     public void setName(String name) {
@@ -64,5 +71,9 @@ public class CallLog {
         if (type.equals("1")) this.type = "Llamada entrante";
         else if (type.equals("2")) this.type = "Llamada saliente";
         else this.type = "Llamada perdida";
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 }

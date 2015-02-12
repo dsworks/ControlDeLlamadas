@@ -14,5 +14,7 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_preference">Ajustes</string>
     <string name="title_activity_busquedas">Busquedas</string>
+    <string name="title_activity_test_tabs">TestTabs</string>
+    <string name="title_activity_resultados">Resultados</string>
 
 </resources>

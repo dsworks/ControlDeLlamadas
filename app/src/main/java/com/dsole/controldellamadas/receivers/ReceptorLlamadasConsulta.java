@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.dsole.controldellamadas.db.CallLogHelper;
+import com.dsole.controldellamadas.providers.CallLogHelper;
 import com.dsole.controldellamadas.classes.Ciclo;
 import com.dsole.controldellamadas.ui.MainActivity;
 import com.dsole.controldellamadas.R;

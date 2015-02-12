@@ -1,4 +1,4 @@
-package com.dsole.controldellamadas.db;
+package com.dsole.controldellamadas.providers;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -26,7 +26,9 @@ import java.util.Date;
  */
 public class CallLogHelper {
 
-    public static ArrayList<CallLog> getAllCallLogs(ContentResolver cr, String fechaInicio, String fechaFinal) {
+    public static ArrayList<CallLog> getCallLogs(ContentResolver cr, String fechaInicio, String fechaFinal,
+                                                 String numero, Boolean realizadas, Boolean recibidas,
+                                                 Boolean perdidas, int minutosDesde, int minutosHasta) {
         // reading all data in descending order according to DATE
         String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
@@ -50,6 +52,45 @@ public class CallLogHelper {
         String where = android.provider.CallLog.Calls.DATE + ">=" + dInicial + " AND " +
                 android.provider.CallLog.Calls.DATE + "<=" + dFinal;
 
+        String tipo = "";
+
+        if (realizadas) {
+            tipo += "X " + android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.OUTGOING_TYPE;
+        }
+        if (recibidas) {
+            tipo += "X " + android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.INCOMING_TYPE;
+        }
+        if (perdidas) {
+            tipo += "X " + android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.MISSED_TYPE;
+        }
+
+        if(!tipo.equals("")) {
+            int count = countOccurrences(tipo, 'X');
+
+            if(count == 1) {
+                tipo = tipo.replace('X', ' ');
+            }
+            else {
+                String aux = "";
+
+                aux = tipo.substring(tipo.indexOf("X", 1));
+
+                aux = aux.replace("X" , " OR " );
+
+                tipo = tipo.substring(0, tipo.indexOf("X", 1)) + aux;
+                tipo = tipo.replace('X', ' ');
+            }
+
+            where += " AND (" + tipo + ") ";
+        }
+
+        where += " AND " + android.provider.CallLog.Calls.DURATION + ">=" + minutosDesde;
+        where += " AND " + android.provider.CallLog.Calls.DURATION + "<=" + minutosHasta;
+
+        if(!numero.equals("")) {
+            where += " AND " + android.provider.CallLog.Calls.NUMBER + "==" + numero.replaceAll("\\s","");
+        }
+
         Cursor cur = cr.query(callUri, null, where, null, strOrder);
 
         /*
@@ -62,7 +103,6 @@ public class CallLogHelper {
 
 
         ArrayList<CallLog> callLogs = new ArrayList<CallLog>();
-
 
         cur.moveToFirst();
 
@@ -78,6 +118,28 @@ public class CallLogHelper {
 
             callLog.setType(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.TYPE)));
             callLog.setTime(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
+
+            String contactId = getContactId(cr, cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
+
+            if (contactId != "") {
+                Bitmap photo = null;
+
+                try {
+                    long id = Long.valueOf(contactId).longValue();
+                    InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(cr,
+                            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id), true);
+
+                    if (inputStream != null) {
+                        photo = BitmapFactory.decodeStream(inputStream);
+                        callLog.setImagen(photo);
+
+                        assert inputStream != null;
+                        inputStream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
             callLogs.add(callLog);
             cur.moveToNext();
@@ -621,7 +683,6 @@ public class CallLogHelper {
         return contactoEncontrado;
     }
 
-
     public static String getTotalMinutosContacto(ContentResolver cr, String fechaInicio, String fechaFinal, String numero, String tipo) {
         String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
@@ -747,5 +808,44 @@ public class CallLogHelper {
         }
 
         return contactId;
+    }
+
+    public static String loadContact(ContentResolver contentResolver, Uri contactUri) {
+        long contactId = -1;
+        String number = "";
+        // Primero buscamos la ID del contacto
+        Cursor cursor = contentResolver.query(contactUri,
+                new String[]{ContactsContract.Contacts._ID}, null, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                contactId = cursor.getLong(0);
+            }
+        } finally {
+            cursor.close();
+        }
+        // A partir de la ID obtenemos su número
+        cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, ContactsContract.CommonDataKinds.Phone.IS_SUPER_PRIMARY);
+        try {
+            if (cursor.moveToFirst()) {
+                number = cursor.getString(0);
+            }
+        } finally {
+            cursor.close();
+        }
+        return number;
+    }
+
+    private static int countOccurrences(String haystack, char needle) {
+        int count = 0;
+        for (int i=0; i < haystack.length(); i++)
+        {
+            if (haystack.charAt(i) == needle)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }

@@ -1,13 +1,277 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.dsole.controldellamadas.ui.Busquedas">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/search_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/oval_ripple"
+        android:elevation="5dp"
+        android:src="@drawable/ic_done_white_48dp"
+        android:stateListAnimator="@anim/button_elevation"
+        android:tint="@android:color/white" />
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"
+                    android:hint="De fecha"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"
+                    android:hint="A fecha"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/deFecha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"
+                    android:text="fecha"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/aFecha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"
+                    android:text="fecha"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"/>
+
+                <View
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".5"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/numero"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.4"
+                    android:inputType="phone" />
+
+                <Button
+                    android:id="@+id/buscarContacto"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/primaryColor"
+                    android:stateListAnimator="@anim/button_elevation"
+                    android:text="Contacto"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:tint="@android:color/white" />
+
+                <Button
+                    android:id="@+id/todos"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/primaryColor"
+                    android:stateListAnimator="@anim/button_elevation"
+                    android:text="Todos"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:tint="@android:color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Tipo de llamada"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chkRecibidas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Recibidas"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/chkRealizadas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:checked="true"
+                    android:text="Realizadas"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/chkPerdidas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:checked="true"
+                    android:text="Perdidas"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Minutos por llamada"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="De"
+                    android:textSize="14sp" />
+
+                <NumberPicker
+                    android:id="@+id/npDeMinutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="a"
+                    android:textSize="14sp" />
+
+                <NumberPicker
+                    android:id="@+id/npAMinutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="minutos"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
