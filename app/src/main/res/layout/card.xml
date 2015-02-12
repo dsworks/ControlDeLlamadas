@@ -1,141 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    card_view:cardCornerRadius="4dp"
-    android:elevation="4dp">
-
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageViewRow"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerInside"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/phonegap"/>
-
-        <TextView
-            android:id="@+id/textViewRowTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textStyle="bold"
-            android:layout_below="@+id/imageViewRow"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
-
-        <TextView
-            android:id="@+id/textViewRowDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:maxLines="3"
-            android:layout_below="@+id/textViewRowTitle"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
-
-        <Button
-            android:id="@+id/buttonRowInfo"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewRowDescription"
-            android:text="Más Información"
-            android:textColor="@color/primary"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            style="?android:attr/borderlessButtonStyle"/>
-
-    </RelativeLayout>
-
-</android.support.v7.widget.CardView>
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:layout_marginBottom="1dp"
+    android:elevation="4dp"
+    card_view:cardCornerRadius="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
-            <TextView
-                android:id="@+id/nombre"
+            <ImageView
+                android:id="@+id/imagen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:paddingTop="5dp"
-                android:text="Desconocido"
-                android:textStyle="bold"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nº: "
-                android:textColor="@color/textColor"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/numero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Número"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/tiempo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"/>
-
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"/>
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:orientation="vertical"
             android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:text="Fecha"
                 android:textColor="@color/textColor"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Desconocido"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/numero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Número"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tiempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tiempo"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
 
             <TextView
                 android:id="@+id/tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="tipo"
                 android:textColor="@color/textColor"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
 
+
     </LinearLayout>
-
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

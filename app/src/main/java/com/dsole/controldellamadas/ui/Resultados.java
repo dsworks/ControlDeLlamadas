@@ -7,6 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dsole.controldellamadas.R;
 import com.dsole.controldellamadas.adapters.ResultadosAdapter;
@@ -32,6 +34,7 @@ public class Resultados extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        TextView numLlamadas = (TextView) findViewById(R.id.numLlamadas);
 
         String numero = "";
         String deFecha = "";
@@ -70,6 +73,10 @@ public class Resultados extends ActionBarActivity {
 
         ArrayList<CallLog> callLogs = CallLogHelper.getCallLogs(getContentResolver(),deFecha, aFecha,
                 numero, realizadas, recibidas, perdidas, deMinutos, aMinutos);
+
+        int cont = callLogs.size();
+        if(cont == 1) numLlamadas.setText("1 llamada encontrada");
+        else numLlamadas.setText(String.valueOf(cont) + " llamadas encontradas");
 
         ResultadosAdapter adapter = new ResultadosAdapter(this, callLogs,R.layout.card);
 

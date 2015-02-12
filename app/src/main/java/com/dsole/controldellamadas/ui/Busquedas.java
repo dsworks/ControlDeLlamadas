@@ -1,5 +1,6 @@
 package com.dsole.controldellamadas.ui;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
@@ -40,13 +41,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Busquedas extends ActionBarActivity implements View.OnClickListener {
-//kk kk kk
     private TextView mDeFecha;
     private TextView mAFecha;
     private Button mBuscarContacto;
     private Button mTodos;
     private ImageButton mBuscar;
-    private TextView mNumero;
+    private EditText mNumero;
     private CheckBox mRealizadas;
     private CheckBox mRecibidas;
     private CheckBox mPerdidas;
@@ -72,7 +72,8 @@ public class Busquedas extends ActionBarActivity implements View.OnClickListener
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mNumero = (TextView) findViewById(R.id.numero);
+        mNumero = (EditText) findViewById(R.id.numero);
+        //mDummy = (EditText) findViewById(R.id.dummy);
         mBuscarContacto = (Button) findViewById(R.id.buscarContacto);
         mBuscar = (ImageButton) findViewById(R.id.search_button);
         mTodos = (Button) findViewById(R.id.todos);
@@ -131,10 +132,9 @@ public class Busquedas extends ActionBarActivity implements View.OnClickListener
 
         inicializarFiltros();
 
-        //TODO Esconder el teclado
-        //Escondemos el teclado
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mNumero.getWindowToken(), 0);
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(mNumero.getWindowToken(), 0);
+
     }
 
     @Override
@@ -204,7 +204,7 @@ public class Busquedas extends ActionBarActivity implements View.OnClickListener
 
         mRealizadas.setChecked(settings.getBoolean("REALIZADAS",true));
         mRecibidas.setChecked(settings.getBoolean("RECIBIDAS",true));
-        mPerdidas.setChecked(settings.getBoolean("PERDIDAS",true));
+        mPerdidas.setChecked(settings.getBoolean("PERDIDAS", true));
 
         formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 

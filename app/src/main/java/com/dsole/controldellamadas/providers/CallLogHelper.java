@@ -117,7 +117,7 @@ public class CallLogHelper {
             callLog.setDate(dateString);
 
             callLog.setType(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.TYPE)));
-            callLog.setTime(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
+            callLog.setTime(cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
 
             String contactId = getContactId(cr, cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
 

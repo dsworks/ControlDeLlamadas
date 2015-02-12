@@ -3,12 +3,17 @@ package com.dsole.controldellamadas.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,6 +54,7 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Vi
         holder.fecha.setText(item.getDate());
         holder.tiempo.setText(item.getTime());
         holder.tipo.setText(item.getType());
+        if(item.getImagen()!=null) holder.imagen.setImageBitmap(getRoundedShape(item.getImagen()));
     }
 
     public void add(CallLog item, int position) {
@@ -62,6 +68,31 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Vi
         notifyItemRemoved(position);
     }
 
+    private Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+        //int targetWidth = (int) scaleBitmapImage.getWidth();
+        //int targetHeight = (int) scaleBitmapImage.getHeight();
+
+        int targetWidth = 190;
+        int targetHeight = 189;
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
+                targetHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(((float) targetWidth - 1) / 2,
+                ((float) targetHeight - 1) / 2,
+                (Math.min(((float) targetWidth),
+                        ((float) targetHeight)) / 2),
+                Path.Direction.CCW);
+
+        canvas.clipPath(path);
+        canvas.drawBitmap(scaleBitmapImage,
+                new Rect(0, 0, scaleBitmapImage.getWidth(),
+                        scaleBitmapImage.getHeight()),
+                new Rect(0, 0, targetWidth, targetHeight), null);
+        return targetBitmap;
+    }
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -73,6 +104,7 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Vi
         public TextView tiempo;
         public TextView fecha;
         public TextView tipo;
+        public ImageView imagen;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,7 +114,7 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Vi
             tiempo = (TextView) itemView.findViewById(R.id.tiempo);
             fecha = (TextView) itemView.findViewById(R.id.fecha);
             tipo = (TextView) itemView.findViewById(R.id.tipo);
-
+            imagen = (ImageView) itemView.findViewById(R.id.imagen);
         }
     }
 }

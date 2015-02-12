@@ -54,12 +54,15 @@ public class CallLog {
         this.number = number;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
+        /*
         TimeZone tz = TimeZone.getTimeZone("UTC");
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(tz);
 
         this.time = df.format(new Date(Integer.valueOf(time)*1000L));
+        */
+        this.time = Ciclo.formatSegundos(time);
     }
 
     public void setDate(String date) {
