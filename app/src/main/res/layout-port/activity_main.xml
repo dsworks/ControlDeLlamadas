@@ -81,7 +81,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Ciclo facturación"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -103,6 +103,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/spinnerAño"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
                             <Spinner
                                 android:id="@+id/spinner"
@@ -165,7 +170,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Tiempo consumido"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
 
@@ -242,7 +247,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Llamadas"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
 
@@ -383,7 +388,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Minutos"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -495,7 +500,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto con más llamadas recibidas"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -608,7 +613,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto con más llamadas realizadas"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
 
@@ -721,7 +726,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto con el que más rato hablas"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
 
@@ -834,7 +839,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
                             android:text="Contacto con la llamada más larga"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
                     </LinearLayout>

@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.dsole.controldellamadas.classes.Años;
 import com.dsole.controldellamadas.classes.CallLog;
 import com.dsole.controldellamadas.providers.CallLogHelper;
 import com.dsole.controldellamadas.classes.Ciclo;
@@ -67,6 +68,7 @@ public class MainActivity extends ActionBarActivity
     private TextView mTopTotalMinutosMasRato;
     private TextView mTopTotalLlamadasMasRato;
     private Spinner mSpinner;
+    private Spinner mSpinnerAño;
 
     private ImageView mImagenContactoSaliente;
     private ImageView mImagenContactoEntrante;
@@ -81,6 +83,7 @@ public class MainActivity extends ActionBarActivity
     private boolean loaded = false;
 
     private int mMesSeleccionado;
+    private int mAñoSeleccionado;
 
     private SharedPreferences sp;
 
@@ -137,6 +140,7 @@ public class MainActivity extends ActionBarActivity
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mSpinner = (Spinner) findViewById(R.id.spinner);
+        mSpinnerAño = (Spinner) findViewById(R.id.spinnerAño);
 
         mBusquedas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,11 +157,23 @@ public class MainActivity extends ActionBarActivity
         mSpinner.setAdapter(dataAdapter);
         addListenerOnSpinnerItemSelection();
 
+        List<String> listAño = Años.setLista();
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listAño);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mSpinnerAño.setAdapter(dataAdapter2);
+        addListenerOnSpinnerItemSelection();
+
         SharedPreferences settings = getSharedPreferences("MIS_PREFERENCIAS", Context.MODE_PRIVATE);
         mMesSeleccionado= settings.getInt("MES_SELECCIONADO", Calendar.getInstance().get(Calendar.MONTH) + 1);
+        mAñoSeleccionado= settings.getInt("AÑO_SELECCIONADO", Calendar.getInstance().get(Calendar.YEAR));
 
+        //mAñoSeleccionado = 2015;
         int posicion = Meses.setPosicionMes(dataAdapter, mMesSeleccionado);
         mSpinner.setSelection(posicion);
+
+        int posicion2 = Años.setPosicionAño(dataAdapter, mAñoSeleccionado);
+        mSpinnerAño.setSelection(posicion2);
 
         avisoPreferencias();
         //inicializarSwipeRefresh();
@@ -193,6 +209,7 @@ public class MainActivity extends ActionBarActivity
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MIS_PREFERENCIAS", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPref.edit();
         edit.putInt("MES_SELECCIONADO", mMesSeleccionado);
+        edit.putInt("AÑO_SELECCIONADO", mAñoSeleccionado);
         edit.commit();
     }
 
@@ -228,6 +245,10 @@ public class MainActivity extends ActionBarActivity
             Intent i = new Intent(MainActivity.this, PreferenceActivity.class);
             startActivity(i);
             return true;
+        } else if (id == R.id.graficos) {
+            Intent i = new Intent(MainActivity.this, Graficas.class);
+            startActivity(i);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -250,8 +271,8 @@ public class MainActivity extends ActionBarActivity
         int limiteAviso = Integer.parseInt(sp.getString("PREF_AVISO_LIMITE_MINUTOS", "90"));
         int primerDiaCiclo = Integer.parseInt(sp.getString("PREF_DIA_CICLO", "1"));
 
-        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
-        String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, mMesSeleccionado, Calendar.getInstance().get(Calendar.YEAR));
+        String fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, mMesSeleccionado, mAñoSeleccionado);
+        String fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, mMesSeleccionado, mAñoSeleccionado);
 
         int segundosConsumidos = CallLogHelper.getSegundosConsumidos(getContentResolver(), fechaInicio, fechaFinal);
 
@@ -259,7 +280,7 @@ public class MainActivity extends ActionBarActivity
 
         mMinutosConsumidos.setText(minutos + " de " + String.valueOf(limiteMinutos) + " m");
 
-        mCicloActual.setText("Ciclo actual " + Ciclo.formatFecha(fechaInicio, fechaFinal));
+        mCicloActual.setText(" " + Ciclo.formatFecha(fechaInicio, fechaFinal));
 /*
         int color;
         if (segundosConsumidos < limiteAviso * 60) {
@@ -389,11 +410,25 @@ public class MainActivity extends ActionBarActivity
 
     public void addListenerOnSpinnerItemSelection() {
         mSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        mSpinnerAño.setOnItemSelectedListener(new CustomOnItemSelectedListener2());
     }
 
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             mMesSeleccionado = Meses.setPosicionMes(parent.getItemAtPosition(pos).toString());
+            loadData();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    }
+
+    public class CustomOnItemSelectedListener2 implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            String pos2 = parent.getItemAtPosition(pos).toString();
+            mAñoSeleccionado = Integer.parseInt(pos2);
+            //mAñoSeleccionado = Años.setPosicionAño(parent.getItemAtPosition(pos).toString());
             loadData();
         }
 

@@ -12,6 +12,8 @@ import android.util.Log;
 import com.dsole.controldellamadas.classes.CallLog;
 import com.dsole.controldellamadas.classes.Ciclo;
 import com.dsole.controldellamadas.classes.Contacto;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,18 +66,17 @@ public class CallLogHelper {
             tipo += "X " + android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.MISSED_TYPE;
         }
 
-        if(!tipo.equals("")) {
+        if (!tipo.equals("")) {
             int count = countOccurrences(tipo, 'X');
 
-            if(count == 1) {
+            if (count == 1) {
                 tipo = tipo.replace('X', ' ');
-            }
-            else {
+            } else {
                 String aux = "";
 
                 aux = tipo.substring(tipo.indexOf("X", 1));
 
-                aux = aux.replace("X" , " OR " );
+                aux = aux.replace("X", " OR ");
 
                 tipo = tipo.substring(0, tipo.indexOf("X", 1)) + aux;
                 tipo = tipo.replace('X', ' ');
@@ -87,8 +88,8 @@ public class CallLogHelper {
         where += " AND " + android.provider.CallLog.Calls.DURATION + ">=" + minutosDesde;
         where += " AND " + android.provider.CallLog.Calls.DURATION + "<=" + minutosHasta;
 
-        if(!numero.equals("")) {
-            where += " AND " + android.provider.CallLog.Calls.NUMBER + "==" + numero.replaceAll("\\s","");
+        if (!numero.equals("")) {
+            where += " AND " + android.provider.CallLog.Calls.NUMBER + "==" + numero.replaceAll("\\s", "");
         }
 
         Cursor cur = cr.query(callUri, null, where, null, strOrder);
@@ -223,6 +224,46 @@ public class CallLogHelper {
         String where = android.provider.CallLog.Calls.DATE + ">=" + dInicial + " AND " +
                 android.provider.CallLog.Calls.DATE + "<=" + dFinal + " AND " +
                 android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.OUTGOING_TYPE;
+
+        Cursor cur = cr.query(callUri, null, where, null, strOrder);
+
+        cur.moveToFirst();
+
+        int duracionSegundos = 0;
+
+        while (!cur.isAfterLast()) {
+            duracionSegundos += cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION));
+
+            cur.moveToNext();
+        }
+
+        return duracionSegundos;
+    }
+
+    public static int getSegundosEntrantes(ContentResolver cr, String fechaInicio, String fechaFinal) {
+
+        String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
+        Uri callUri = Uri.parse("content://call_log/calls");
+
+        fechaInicio = fechaInicio + " 00:00:00";
+        fechaFinal = fechaFinal + " 23:59:59";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        Date date2 = null;
+        try {
+            date = sdf.parse(fechaInicio);
+            date2 = sdf.parse(fechaFinal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dInicial = String.valueOf(date.getTime());
+        String dFinal = String.valueOf(date2.getTime());
+
+        String where = android.provider.CallLog.Calls.DATE + ">=" + dInicial + " AND " +
+                android.provider.CallLog.Calls.DATE + "<=" + dFinal + " AND " +
+                android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.INCOMING_TYPE;
 
         Cursor cur = cr.query(callUri, null, where, null, strOrder);
 
@@ -839,13 +880,172 @@ public class CallLogHelper {
 
     private static int countOccurrences(String haystack, char needle) {
         int count = 0;
-        for (int i=0; i < haystack.length(); i++)
-        {
-            if (haystack.charAt(i) == needle)
-            {
+        for (int i = 0; i < haystack.length(); i++) {
+            if (haystack.charAt(i) == needle) {
                 count++;
             }
         }
         return count;
     }
+
+    public static ArrayList<Entry> getGraficosResumenMinutosRealizadasAnuales(ContentResolver cr, int primerDiaCiclo, int año) {
+
+        ArrayList<Entry> ret = new ArrayList<Entry>();
+
+        String fechaInicio = "";
+        String fechaFinal = "";
+        int valor = 0;
+
+        for (int i = 1; i <= 12; i++) {
+
+            fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, i, año);
+            fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, i, año);
+
+            valor = getSegundosConsumidos(cr, fechaInicio, fechaFinal);
+
+            ret.add(new Entry((float) valor / 60, i - 1));
+        }
+
+        return ret;
+    }
+
+    public static ArrayList<Entry> getGraficosResumenMinutosRecibidosAnuales(ContentResolver cr, int primerDiaCiclo, int año) {
+
+        ArrayList<Entry> ret = new ArrayList<Entry>();
+
+        String fechaInicio = "";
+        String fechaFinal = "";
+        int valor = 0;
+
+        for (int i = 1; i <= 12; i++) {
+
+            fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, i, año);
+            fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, i, año);
+
+            valor = getSegundosEntrantes(cr, fechaInicio, fechaFinal);
+
+            ret.add(new Entry(valor / 60, i - 1));
+        }
+
+        return ret;
+    }
+
+    public static ArrayList<BarEntry> getGraficosResumenLlamadasRealizadasAnuales(ContentResolver cr, int primerDiaCiclo, int año) {
+
+        ArrayList<BarEntry> ret = new ArrayList<BarEntry>();
+
+        String fechaInicio = "";
+        String fechaFinal = "";
+
+        for (int i = 1; i <= 12; i++) {
+
+            fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, i, año);
+            fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, i, año);
+
+            int[] llamadas = getTotalTipoLlamadas(cr, fechaInicio, fechaFinal);
+
+            ret.add(new BarEntry((int) llamadas[1], i - 1));
+        }
+
+        return ret;
+    }
+
+    public static ArrayList<Contacto> getGraficosResumenContactosRealizadasAnuales(ContentResolver cr, int primerDiaCiclo, int año) {
+
+        ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+
+        String fechaInicio = "";
+        String fechaFinal = "";
+
+        //for (int i = 1; i <= 12; i++) {
+
+        fechaInicio = Ciclo.fechaPrimerDiaCiclo(primerDiaCiclo, 1, año);
+        fechaFinal = Ciclo.fechaUltimoDiaCiclo(primerDiaCiclo, 12, año);
+
+        String strOrder = android.provider.CallLog.Calls.NUMBER + " DESC";
+        Uri callUri = Uri.parse("content://call_log/calls");
+
+        fechaInicio = fechaInicio + " 00:00:00";
+        fechaFinal = fechaFinal + " 23:59:59";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        Date date2 = null;
+        try {
+            date = sdf.parse(fechaInicio);
+            date2 = sdf.parse(fechaFinal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dInicial = String.valueOf(date.getTime());
+        String dFinal = String.valueOf(date2.getTime());
+
+        String where = android.provider.CallLog.Calls.DATE + ">=" + dInicial + " AND " +
+                android.provider.CallLog.Calls.DATE + "<=" + dFinal + " AND " +
+                android.provider.CallLog.Calls.TYPE + "==" + android.provider.CallLog.Calls.OUTGOING_TYPE;
+
+        Cursor cur = cr.query(callUri, null, where, null, strOrder);
+
+        cur.moveToFirst();
+
+        String numeroUltimo = "primeraVez";
+        String numero = "";
+        String nombre = "";
+        int segundos = 0;
+        int numLlamadas = 0;
+        while (!cur.isAfterLast()) {
+
+            numero = cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+
+            if (numeroUltimo != "primeraVez") {
+                if (!numero.equals(numeroUltimo)) {
+                    Contacto contacto = new Contacto();
+
+                    contacto.setNumero(numeroUltimo);
+                    contacto.setNombre(nombre);
+                    contacto.setTotalSegundos(segundos);
+                    contacto.setTotalLlamadas(numLlamadas);
+
+                    contactos.add(contacto);
+
+                    numLlamadas = 0;
+                    segundos = 0;
+                }
+            }
+
+            nombre = cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME));
+            segundos += cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION));
+            numLlamadas++;
+
+            numeroUltimo = numero;
+            cur.moveToNext();
+
+            if (cur.isAfterLast()) {
+                Contacto contacto = new Contacto();
+
+                contacto.setNumero(numeroUltimo);
+                contacto.setNombre(nombre);
+                contacto.setTotalSegundos(segundos);
+                contacto.setTotalLlamadas(numLlamadas);
+
+                contactos.add(contacto);
+            }
+        }
+
+        Collections.sort(contactos, new Contacto.TotalLlamadasComparator());
+
+        ArrayList<Contacto> ret = new ArrayList<Contacto>();
+
+        for (int i = 0; i < contactos.size(); i++) {
+            if(i==5) break;
+            ret.add(contactos.get(i));
+        }
+
+    //}
+
+        return ret;
+    }
+
+
 }

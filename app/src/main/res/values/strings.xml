@@ -16,5 +16,6 @@
     <string name="title_activity_busquedas">Busquedas</string>
     <string name="title_activity_test_tabs">TestTabs</string>
     <string name="title_activity_resultados">Resultados</string>
+    <string name="title_activity_graficas">Graficas</string>
 
 </resources>
