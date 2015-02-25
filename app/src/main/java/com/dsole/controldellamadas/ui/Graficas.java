@@ -18,7 +18,6 @@ import android.widget.Spinner;
 import com.dsole.controldellamadas.R;
 import com.dsole.controldellamadas.classes.Años;
 import com.dsole.controldellamadas.classes.BarChartItem;
-import com.dsole.controldellamadas.classes.CallLog;
 import com.dsole.controldellamadas.classes.ChartItem;
 import com.dsole.controldellamadas.classes.Contacto;
 import com.dsole.controldellamadas.classes.LineChartItem;
@@ -36,7 +35,6 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 public class Graficas extends ActionBarActivity {
@@ -92,8 +90,6 @@ public class Graficas extends ActionBarActivity {
         mSpinnerAño.setSelection(posicion);
 
         loadData();
-
-
     }
 
     private void loadData() {
@@ -146,14 +142,14 @@ public class Graficas extends ActionBarActivity {
 
         ArrayList<Entry> e1 = CallLogHelper.getGraficosResumenMinutosRealizadasAnuales(getContentResolver(), primerDiaCiclo, año);
 
-        LineDataSet d1 = new LineDataSet(e1, "Minutos en llamadas realizadas");
+        LineDataSet d1 = new LineDataSet(e1, getString(R.string.minutos_en_llamadas_realizadas));
         d1.setLineWidth(3f);
         d1.setCircleSize(5f);
         d1.setHighLightColor(Color.rgb(244, 117, 117));
 
         ArrayList<Entry> e2 = CallLogHelper.getGraficosResumenMinutosRecibidosAnuales(getContentResolver(), primerDiaCiclo, año);
 
-        LineDataSet d2 = new LineDataSet(e2, "Minutos en llamadas recibidas");
+        LineDataSet d2 = new LineDataSet(e2, getString(R.string.minutos_en_llamadas_recibidas));
         d2.setLineWidth(3f);
         d2.setCircleSize(5f);
         d2.setHighLightColor(Color.rgb(244, 117, 117));
@@ -172,7 +168,7 @@ public class Graficas extends ActionBarActivity {
 
         ArrayList<BarEntry> entries = CallLogHelper.getGraficosResumenLlamadasRealizadasAnuales(getContentResolver(), primerDiaCiclo, año);
 
-        BarDataSet d = new BarDataSet(entries, "Número de llamadas realizadas");
+        BarDataSet d = new BarDataSet(entries, getString(R.string.numero_de_llamadas_realizadas));
         d.setBarSpacePercent(20f);
         d.setColors(ColorTemplate.VORDIPLOM_COLORS);
         d.setHighLightAlpha(255);
@@ -183,7 +179,7 @@ public class Graficas extends ActionBarActivity {
 
     private PieData generateDataPie(int primerDiaCiclo, int año) {
 
-        ArrayList<Contacto> contactos = CallLogHelper.getGraficosResumenContactosRealizadasAnuales(getContentResolver(), primerDiaCiclo, año);
+        ArrayList<Contacto> contactos = CallLogHelper.getGraficosResumenContactosRealizadasAnuales(getApplicationContext(), getContentResolver(), primerDiaCiclo, año);
 
         ArrayList<String> nombresContactos = new ArrayList<String>();
         ArrayList<Entry> llamadas = new ArrayList<Entry>();
@@ -192,7 +188,7 @@ public class Graficas extends ActionBarActivity {
             String nombre = contactos.get(i).getNombre();
             String numero = contactos.get(i).getNumero();
 
-            if (numero.equals("Ningún contacto")) nombresContactos.add(numero);
+            if (numero.equals(getString(R.string.ningun_contacto))) nombresContactos.add(numero);
             else nombresContactos.add(nombre);
 
             llamadas.add(new Entry(contactos.get(i).getTotalLlamadas(), i));
@@ -209,20 +205,19 @@ public class Graficas extends ActionBarActivity {
     }
 
     private ArrayList<String> getMonths() {
-
         ArrayList<String> m = new ArrayList<String>();
-        m.add("Ene.");
-        m.add("Feb.");
-        m.add("Mar.");
-        m.add("Abr.");
-        m.add("May.");
-        m.add("Jun.");
-        m.add("Jul.");
-        m.add("Ago.");
-        m.add("Sep.");
-        m.add("Oct.");
-        m.add("Nov.");
-        m.add("Dic.");
+        m.add(getString(R.string.Enero_abreviado));
+        m.add(getString(R.string.Febrero_abreviado));
+        m.add(getString(R.string.Marzo_abreviado));
+        m.add(getString(R.string.Abril_abreviado));
+        m.add(getString(R.string.Mayo_abreviado));
+        m.add(getString(R.string.Junio_abreviado));
+        m.add(getString(R.string.Julio_abreviado));
+        m.add(getString(R.string.Agosto_abreviado));
+        m.add(getString(R.string.Septiembre_abreviado));
+        m.add(getString(R.string.Octubre_abreviado));
+        m.add(getString(R.string.Noviembre_abreviado));
+        m.add(getString(R.string.Diciembre_abreviado));
 
         return m;
     }

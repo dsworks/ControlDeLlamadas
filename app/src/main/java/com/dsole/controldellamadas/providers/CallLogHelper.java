@@ -2,6 +2,7 @@ package com.dsole.controldellamadas.providers;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +29,7 @@ import java.util.Date;
  */
 public class CallLogHelper {
 
-    public static ArrayList<CallLog> getCallLogs(ContentResolver cr, String fechaInicio, String fechaFinal,
+    public static ArrayList<CallLog> getCallLogs(Context context, ContentResolver cr, String fechaInicio, String fechaFinal,
                                                  String numero, Boolean realizadas, Boolean recibidas,
                                                  Boolean perdidas, int minutosDesde, int minutosHasta) {
         // reading all data in descending order according to DATE
@@ -103,21 +104,21 @@ public class CallLogHelper {
         */
 
 
-        ArrayList<CallLog> callLogs = new ArrayList<CallLog>();
+        ArrayList<CallLog> callLogs = new ArrayList<>();
 
         cur.moveToFirst();
 
         while (!cur.isAfterLast()) {
             CallLog callLog = new CallLog();
             callLog.setNumber(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
-            callLog.setName(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)));
+            callLog.setName(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)),context);
 
             String callDate = cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.DATE));
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
             String dateString = formatter.format(new Date(Long.parseLong(callDate)));
             callLog.setDate(dateString);
 
-            callLog.setType(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.TYPE)));
+            callLog.setType(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.TYPE)),context);
             callLog.setTime(cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
 
             String contactId = getContactId(cr, cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
@@ -393,7 +394,7 @@ public class CallLogHelper {
         return minutos;
     }
 
-    public static Contacto getTopContacto(ContentResolver cr, String fechaInicio, String fechaFinal, String tipo) {
+    public static Contacto getTopContacto(Context context, ContentResolver cr, String fechaInicio, String fechaFinal, String tipo) {
         String strOrder = android.provider.CallLog.Calls.NUMBER + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
 
@@ -444,8 +445,8 @@ public class CallLogHelper {
                 if (!numero.equals(numeroUltimo)) {
                     Contacto contacto = new Contacto();
 
-                    contacto.setNumero(numeroUltimo);
-                    contacto.setNombre(nombre);
+                    contacto.setNumero(numeroUltimo, context);
+                    contacto.setNombre(nombre, context);
                     contacto.setTotalSegundos(segundos);
                     contacto.setTotalLlamadas(numLlamadas);
 
@@ -466,8 +467,8 @@ public class CallLogHelper {
             if (cur.isAfterLast()) {
                 Contacto contacto = new Contacto();
 
-                contacto.setNumero(numeroUltimo);
-                contacto.setNombre(nombre);
+                contacto.setNumero(numeroUltimo, context);
+                contacto.setNombre(nombre, context);
                 contacto.setTotalSegundos(segundos);
                 contacto.setTotalLlamadas(numLlamadas);
 
@@ -510,15 +511,15 @@ public class CallLogHelper {
 
             contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(contactoEncontrado.getTotalSegundos()));
         } else {
-            contactoEncontrado.setNombre("");
-            contactoEncontrado.setNumero("");
+            contactoEncontrado.setNombre("", context);
+            contactoEncontrado.setNumero("", context);
             contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(0));
         }
 
         return contactoEncontrado;
     }
 
-    public static Contacto getTopContactoMasMinutos(ContentResolver cr, String fechaInicio, String fechaFinal) {
+    public static Contacto getTopContactoMasMinutos(Context context, ContentResolver cr, String fechaInicio, String fechaFinal) {
         String strOrder = android.provider.CallLog.Calls.DURATION + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
 
@@ -549,8 +550,8 @@ public class CallLogHelper {
 
         while (!cur.isAfterLast()) {
 
-            contacto.setNombre(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)));
-            contacto.setNumero(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)));
+            contacto.setNombre(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME)), context);
+            contacto.setNumero(cur.getString(cur.getColumnIndex(android.provider.CallLog.Calls.NUMBER)), context);
             contacto.setTotalSegundos(cur.getInt(cur.getColumnIndex(android.provider.CallLog.Calls.DURATION)));
             break;
         }
@@ -591,15 +592,15 @@ public class CallLogHelper {
 
             contacto.setTotalMinutos(Ciclo.formatSegundos(contacto.getTotalSegundos()));
         } else {
-            contacto.setNumero("");
-            contacto.setNombre("");
+            contacto.setNumero("", context);
+            contacto.setNombre("", context);
             contacto.setTotalMinutos(Ciclo.formatSegundos(0));
         }
 
         return contacto;
     }
 
-    public static Contacto getTopContactoMasRato(ContentResolver cr, String fechaInicio, String fechaFinal) {
+    public static Contacto getTopContactoMasRato(Context context, ContentResolver cr, String fechaInicio, String fechaFinal) {
         String strOrder = android.provider.CallLog.Calls.NUMBER + " DESC";
         Uri callUri = Uri.parse("content://call_log/calls");
 
@@ -644,8 +645,8 @@ public class CallLogHelper {
                 if (!numero.equals(numeroUltimo)) {
                     Contacto contacto = new Contacto();
 
-                    contacto.setNumero(numeroUltimo);
-                    contacto.setNombre(nombre);
+                    contacto.setNumero(numeroUltimo, context);
+                    contacto.setNombre(nombre, context);
                     contacto.setTotalSegundos(segundos);
                     contacto.setTotalLlamadas(numLlamadas);
 
@@ -666,8 +667,8 @@ public class CallLogHelper {
             if (cur.isAfterLast()) {
                 Contacto contacto = new Contacto();
 
-                contacto.setNumero(numeroUltimo);
-                contacto.setNombre(nombre);
+                contacto.setNumero(numeroUltimo, context);
+                contacto.setNombre(nombre, context);
                 contacto.setTotalSegundos(segundos);
                 contacto.setTotalLlamadas(numLlamadas);
 
@@ -716,8 +717,8 @@ public class CallLogHelper {
 
             contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(contactoEncontrado.getTotalSegundos()));
         } else {
-            contactoEncontrado.setNombre("");
-            contactoEncontrado.setNumero("");
+            contactoEncontrado.setNombre("", context);
+            contactoEncontrado.setNumero("", context);
             contactoEncontrado.setTotalMinutos(Ciclo.formatSegundos(0));
         }
 
@@ -881,7 +882,7 @@ public class CallLogHelper {
     private static int countOccurrences(String haystack, char needle) {
         int count = 0;
         for (int i = 0; i < haystack.length(); i++) {
-            if (haystack.charAt(i) == needle) {
+            if (haystack.charAt(i) == 'X') {
                 count++;
             }
         }
@@ -950,7 +951,7 @@ public class CallLogHelper {
         return ret;
     }
 
-    public static ArrayList<Contacto> getGraficosResumenContactosRealizadasAnuales(ContentResolver cr, int primerDiaCiclo, int año) {
+    public static ArrayList<Contacto> getGraficosResumenContactosRealizadasAnuales(Context context, ContentResolver cr, int primerDiaCiclo, int año) {
 
         ArrayList<Contacto> contactos = new ArrayList<Contacto>();
 
@@ -1002,8 +1003,8 @@ public class CallLogHelper {
                 if (!numero.equals(numeroUltimo)) {
                     Contacto contacto = new Contacto();
 
-                    contacto.setNumero(numeroUltimo);
-                    contacto.setNombre(nombre);
+                    contacto.setNumero(numeroUltimo, context);
+                    contacto.setNombre(nombre, context);
                     contacto.setTotalSegundos(segundos);
                     contacto.setTotalLlamadas(numLlamadas);
 
@@ -1024,8 +1025,8 @@ public class CallLogHelper {
             if (cur.isAfterLast()) {
                 Contacto contacto = new Contacto();
 
-                contacto.setNumero(numeroUltimo);
-                contacto.setNombre(nombre);
+                contacto.setNumero(numeroUltimo, context);
+                contacto.setNombre(nombre, context);
                 contacto.setTotalSegundos(segundos);
                 contacto.setTotalLlamadas(numLlamadas);
 

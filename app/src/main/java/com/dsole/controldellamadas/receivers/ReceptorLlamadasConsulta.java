@@ -27,7 +27,7 @@ public class ReceptorLlamadasConsulta extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.d("ControlDeLlamadas", "onReceive(): " + intent.getAction().toString() + " consultando: " + consultandoLog.toString());
+        Log.d("ControlDeLlamadas", "onReceive(): " + intent.getAction() + " consultando: " + consultandoLog.toString());
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -61,12 +61,12 @@ public class ReceptorLlamadasConsulta extends BroadcastReceiver {
             case 1:
                 //enviamos notificación
                 //todo saber si hay una notificacion ya enviada para no enviar mas
-                enviarNotificacion(context, "Está a punto de superar su límite de minutos");
+                enviarNotificacion(context, context.getString(R.string.mensaje_notificacion_llegando_limite));
                 break;
             case 2:
                 //enviamos notificación
                 //todo saber si hay una notificacion ya enviada para no enviar mas
-                enviarNotificacion(context, "Ha superado su límite de minutos");
+                enviarNotificacion(context, context.getString(R.string.mensaje_notificacion_limite_superado));
                 break;
             default:
                 //no envíamos nada

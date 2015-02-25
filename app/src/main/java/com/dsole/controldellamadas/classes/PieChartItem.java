@@ -5,14 +5,10 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.utils.Legend;
-import com.github.mikephil.charting.utils.XLabels;
-import com.github.mikephil.charting.utils.YLabels;
 
 import com.dsole.controldellamadas.R;
 /**
@@ -54,10 +50,10 @@ public class PieChartItem  extends ChartItem {
 
         // apply styling
         holder.chart.setValueTypeface(mTf);
-        holder.chart.setDescription("Top 5 Contactos a los que más llevas llamando (anualmente)");
+        holder.chart.setDescription(c.getString(R.string.top_cinco_contactos));
         holder.chart.setHoleRadius(60f);
         holder.chart.setTransparentCircleRadius(65f);
-        holder.chart.setCenterText("Contactos");
+        holder.chart.setCenterText(c.getString(R.string.contactos));
         holder.chart.setCenterTextTypeface(mTf);
         holder.chart.setCenterTextSize(18f);
         holder.chart.setDrawXValues(false);

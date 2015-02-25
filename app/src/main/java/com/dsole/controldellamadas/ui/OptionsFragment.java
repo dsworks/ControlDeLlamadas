@@ -33,19 +33,19 @@ public class OptionsFragment extends PreferenceFragment implements SharedPrefere
         key = "PREF_DIA_CICLO";
         Preference pref = findPreference(key);
         valor = sp.getString(key, "");
-        if(valor!="") pref.setSummary(getSummary(key, valor));
+        if(!valor.equals("")) pref.setSummary(getSummary(key, valor));
         valor = "";
 
         key = "PREF_LIMITE_MINUTOS";
         Preference pref2 = findPreference(key);
         valor = sp.getString(key, "");
-        if(valor!="") pref2.setSummary(getSummary(key, valor));
+        if(!valor.equals("")) pref2.setSummary(getSummary(key, valor));
         valor = "";
 
         key = "PREF_AVISO_LIMITE_MINUTOS";
         Preference pref3 = findPreference(key);
         valor = sp.getString(key, "");
-        if(valor!="") pref3.setSummary(getSummary(key, valor));
+        if(!valor.equals("")) pref3.setSummary(getSummary(key, valor));
     }
 
     @Override

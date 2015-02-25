@@ -13,7 +13,7 @@ public class Años {
     private static String[] años;
 
     public static List<String> setLista() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("2005");
         list.add("2006");
         list.add("2007");

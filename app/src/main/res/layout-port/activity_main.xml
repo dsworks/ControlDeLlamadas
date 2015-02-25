@@ -80,7 +80,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Ciclo facturación"
+                            android:text="@string/ciclo_facturacion"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
@@ -120,7 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
-                                android:text="Ciclo"
+                                android:text="@string/ciclo"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -169,7 +169,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Tiempo consumido"
+                            android:text="@string/tiempo_consumido"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
@@ -193,7 +193,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
                             android:gravity="right"
-                            android:text="Minut" />
+                            android:text="@string/minutos" />
 
                         <ProgressBar
                             android:id="@+id/progressBar"
@@ -246,7 +246,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Llamadas"
+                            android:text="@string/llamadas"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
@@ -275,7 +275,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
@@ -284,7 +284,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
 
-                                android:text="Recibidas"
+                                android:text="@string/recibidas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -301,7 +301,7 @@
                                 android:layout_height="wrap_content"
 
                                 android:layout_gravity="center"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
@@ -311,7 +311,7 @@
 
 
                                 android:layout_gravity="center"
-                                android:text="Realizadas"
+                                android:text="@string/realizadas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -329,7 +329,7 @@
 
 
                                 android:layout_gravity="center"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
@@ -339,7 +339,7 @@
                                 android:layout_gravity="center"
 
                                 android:layout_marginBottom="5dp"
-                                android:text="Perdidas"
+                                android:text="@string/perdidas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -387,7 +387,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Minutos"
+                            android:text="@string/minutos"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
@@ -417,7 +417,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
-                                android:text="Tiempo en llamadas realizadas"
+                                android:text="@string/tiempo_en_llamadas_realizadas"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -425,7 +425,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
-                                android:text="Tiempo en llamadas recibidas"
+                                android:text="@string/tiempo_en_llamadas_recibidas"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -442,7 +442,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
-                                android:text="00:00:00"
+                                android:text="@string/zero_horas_zero_minutos"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -451,7 +451,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginLeft="10dp"
-                                android:text="00:00:00"
+                                android:text="@string/zero_horas_zero_minutos"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -499,7 +499,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Contacto con más llamadas recibidas"
+                            android:text="@string/contacto_con_mas_llamadas_recibidas"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
@@ -543,28 +543,28 @@
                                 android:id="@+id/nombreTopEntrante"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/numTopEntrante"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalLlamadasTopEntrante"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalMinutosTopEntrante"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -612,7 +612,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Contacto con más llamadas realizadas"
+                            android:text="@string/contacto_con_mas_llamadas_realizadas"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
@@ -656,28 +656,28 @@
                                 android:id="@+id/nombreTopSaliente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/numTopSaliente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalLlamadasTopSaliente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalMinutosTopSaliente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -725,7 +725,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Contacto con el que más rato hablas"
+                            android:text="@string/contacto_con_el_que_mas_rato_hablas"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
                     </LinearLayout>
@@ -769,28 +769,28 @@
                                 android:id="@+id/nombreTopMasRato"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/numTopMasRato"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalLlamadasTopMasRato"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalMinutosTopMasRato"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
@@ -838,7 +838,7 @@
                             android:layout_marginBottom="17dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="18dp"
-                            android:text="Contacto con la llamada más larga"
+                            android:text="@string/contacto_con_la_llamada_mas_larga"
                             android:textColor="@color/Grey"
                             android:textSize="24sp" />
 
@@ -883,21 +883,21 @@
                                 android:id="@+id/nombreTopMasMinutos"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/numTopMasMinutos"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/totalMinutosTopMasMinutos"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textSize="16sp" />
 
                         </LinearLayout>

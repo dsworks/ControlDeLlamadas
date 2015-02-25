@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:paddingTop="5dp"
-                android:text="Unknown"
+                android:text="@string/desconocido"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"/>
@@ -31,7 +31,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nº: "
+                android:text="@string/numero_abreviado"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"/>
 
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Number"
+                android:text="@string/numero"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"/>
 
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Date"
+                android:text="@string/fecha"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"/>
 

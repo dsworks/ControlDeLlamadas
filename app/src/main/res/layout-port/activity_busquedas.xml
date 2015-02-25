@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight=".5"
-                    android:hint="De fecha"
+                    android:hint="@string/de_fecha"
                     android:textSize="16sp" />
 
                 <TextView
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight=".5"
-                    android:hint="A fecha"
+                    android:hint="@string/a_fecha"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight=".5"
-                    android:text="fecha"
+                    android:text="@string/fecha"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight=".5"
-                    android:text="fecha"
+                    android:text="@string/fecha"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -133,7 +133,7 @@
                     android:layout_weight="1"
                     android:background="@color/primaryColor"
                     android:stateListAnimator="@anim/button_elevation"
-                    android:text="Contacto"
+                    android:text="@string/contacto"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:tint="@android:color/white" />
@@ -148,7 +148,7 @@
                     android:layout_weight="1"
                     android:background="@color/primaryColor"
                     android:stateListAnimator="@anim/button_elevation"
-                    android:text="Todos"
+                    android:text="@string/todos"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:tint="@android:color/white" />
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="Tipo de llamada"
+                    android:text="@string/tipo_de_llamada"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -180,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Recibidas"
+                    android:text="@string/recibidas"
                     android:textSize="14sp" />
 
                 <CheckBox
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:checked="true"
-                    android:text="Realizadas"
+                    android:text="@string/realizadas"
                     android:textSize="14sp" />
 
                 <CheckBox
@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:checked="true"
-                    android:text="Perdidas"
+                    android:text="@string/perdidas"
                     android:textSize="14sp" />
 
 
@@ -214,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="Minutos por llamada"
+                    android:text="@string/minutos_por_llamada"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:text="De"
+                    android:text="@string/de"
                     android:textSize="14sp" />
 
                 <NumberPicker
@@ -243,7 +243,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="a"
+                    android:text="@string/a"
                     android:textSize="14sp" />
 
                 <NumberPicker
@@ -257,7 +257,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="minutos"
+                    android:text="@string/minutos_m"
                     android:textSize="14sp" />
 
             </LinearLayout>

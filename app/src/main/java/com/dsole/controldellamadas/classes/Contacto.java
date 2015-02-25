@@ -1,6 +1,9 @@
 package com.dsole.controldellamadas.classes;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+
+import com.dsole.controldellamadas.R;
 
 import java.util.Comparator;
 
@@ -72,13 +75,13 @@ public class Contacto implements Comparable {
         this.imagen = imagen;
     }
 
-    public void setNumero(String numero) {
-        if(numero == "" || numero == null) this.numero = "Ningún contacto";
+    public void setNumero(String numero, Context c) {
+        if(numero == "" || numero == null) this.numero = c.getString(R.string.ningun_contacto);
         else this.numero = numero;
     }
 
-    public void setNombre(String nombre) {
-        if(nombre == "" || nombre == null) this.nombre = "Ningún contacto";
+    public void setNombre(String nombre, Context c) {
+        if(nombre == "" || nombre == null) this.nombre = c.getString(R.string.ningun_contacto);
         else this.nombre = nombre;
     }
 

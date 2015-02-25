@@ -150,7 +150,7 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
-        List<String> list = Meses.setLista();
+        List<String> list = Meses.setLista(getApplicationContext());
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -169,7 +169,7 @@ public class MainActivity extends ActionBarActivity
         mAñoSeleccionado= settings.getInt("AÑO_SELECCIONADO", Calendar.getInstance().get(Calendar.YEAR));
 
         //mAñoSeleccionado = 2015;
-        int posicion = Meses.setPosicionMes(dataAdapter, mMesSeleccionado);
+        int posicion = Meses.setPosicionMes(dataAdapter, mMesSeleccionado, getApplicationContext());
         mSpinner.setSelection(posicion);
 
         int posicion2 = Años.setPosicionAño(dataAdapter, mAñoSeleccionado);
@@ -186,6 +186,7 @@ public class MainActivity extends ActionBarActivity
         int res = db.getPreferenciasModificadas();
         if (res == 0 || res == 1) {
             DFragment dialogo = new DFragment();
+            dialogo.setContext(getApplicationContext());
             dialogo.show(getSupportFragmentManager(), "");
 
             //if (res == 0) db.insertaAviso();
@@ -249,6 +250,10 @@ public class MainActivity extends ActionBarActivity
             Intent i = new Intent(MainActivity.this, Graficas.class);
             startActivity(i);
             return true;
+        } else if (id == R.id.action_acerca_de) {
+            Intent i = new Intent(MainActivity.this, AcercaDe.class);
+            startActivity(i);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -261,7 +266,7 @@ public class MainActivity extends ActionBarActivity
         MySQLiteHelper db = new MySQLiteHelper(this);
         if (db.getPreferenciasModificadas() != 2) db.actualizarAvisoPreferencias(1);
         */
-        //TODO recoger las preferencias y actuar en consecuencia
+
 
     }
 
@@ -278,9 +283,9 @@ public class MainActivity extends ActionBarActivity
 
         String minutos = Ciclo.formatSegundos(segundosConsumidos);
 
-        mMinutosConsumidos.setText(minutos + " de " + String.valueOf(limiteMinutos) + " m");
+        mMinutosConsumidos.setText(minutos + getString(R.string.de_espacios) + String.valueOf(limiteMinutos) + getString(R.string.m_espacio));
 
-        mCicloActual.setText(" " + Ciclo.formatFecha(fechaInicio, fechaFinal));
+        mCicloActual.setText(" " + Ciclo.formatFecha(fechaInicio, fechaFinal, getApplicationContext()));
 /*
         int color;
         if (segundosConsumidos < limiteAviso * 60) {
@@ -309,8 +314,8 @@ public class MainActivity extends ActionBarActivity
         mTiempoLlamadasRecibidas.setText(String.valueOf(tiempo[0]));
         mTiempoLlamadasRealizadas.setText(String.valueOf(tiempo[1]));
 
-        Contacto topContactoSaliente = CallLogHelper.getTopContacto(getContentResolver(), fechaInicio, fechaFinal, "SALIENTE");
-        Contacto topContactoEntrante = CallLogHelper.getTopContacto(getContentResolver(), fechaInicio, fechaFinal, "ENTRANTE");
+        Contacto topContactoSaliente = CallLogHelper.getTopContacto(getApplicationContext(), getContentResolver(), fechaInicio, fechaFinal, "SALIENTE");
+        Contacto topContactoEntrante = CallLogHelper.getTopContacto(getApplicationContext(), getContentResolver(), fechaInicio, fechaFinal, "ENTRANTE");
 
         //INICIO LLAMADAS RECIBIDAS
         mTopNombreRecibidas.setText(topContactoEntrante.getNombre());
@@ -318,8 +323,8 @@ public class MainActivity extends ActionBarActivity
 
         String aux = "";
         if (topContactoEntrante.getTotalLlamadas() == 1)
-            aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + " llamada";
-        else aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + " llamadas";
+            aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + getString(R.string.llamada_espacio);
+        else aux = String.valueOf(topContactoEntrante.getTotalLlamadas()) + getString(R.string.llamadas_espacio);
 
         mTopTotalLlamadasRecibidas.setText(aux);
         mTopTotalMinutosRecibidas.setText(topContactoEntrante.getTotalMinutos());
@@ -332,8 +337,8 @@ public class MainActivity extends ActionBarActivity
         //INICIO LLAMADAS REALIZADAs
         aux = "";
         if (topContactoSaliente.getTotalLlamadas() == 1)
-            aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamada";
-        else aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + " llamadas";
+            aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + getString(R.string.llamada_espacio);
+        else aux = String.valueOf(topContactoSaliente.getTotalLlamadas()) + getString(R.string.llamadas_espacio);
 
         mTopTotalLlamadasRealizadas.setText(aux);
         mTopTotalMinutosRealizadas.setText(topContactoSaliente.getTotalMinutos());
@@ -347,7 +352,7 @@ public class MainActivity extends ActionBarActivity
 
 
         //Contacto con la llamada más larga
-        Contacto topContactoMasMinutos = CallLogHelper.getTopContactoMasMinutos(getContentResolver(), fechaInicio, fechaFinal);
+        Contacto topContactoMasMinutos = CallLogHelper.getTopContactoMasMinutos(getApplicationContext(), getContentResolver(), fechaInicio, fechaFinal);
 
         mTopNombreMasMinutos.setText(topContactoMasMinutos.getNombre());
         mTopNumeroMasMinutos.setText(topContactoMasMinutos.getNumero());
@@ -359,19 +364,19 @@ public class MainActivity extends ActionBarActivity
         else mImagenContactoMasMinutos.setImageBitmap(null);
 
         //contacto con el que más hablas
-        Contacto topContactoMasRato = CallLogHelper.getTopContactoMasRato(getContentResolver(), fechaInicio, fechaFinal);
+        Contacto topContactoMasRato = CallLogHelper.getTopContactoMasRato(getApplicationContext(), getContentResolver(), fechaInicio, fechaFinal);
 
         aux = "";
         if (topContactoMasRato.getTotalLlamadas() == 1)
-            aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + " llamada en total";
-        else aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + " llamadas en total";
+            aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + getString(R.string.llamada_en_total_espacio);
+        else aux = String.valueOf(topContactoMasRato.getTotalLlamadas()) + getString(R.string.llamadas_en_total_espacio);
 
         mTopTotalLlamadasMasRato.setText(aux);
 
         mTopNombreMasRato.setText(topContactoMasRato.getNombre());
         mTopNumeroMasRato.setText(topContactoMasRato.getNumero());
 
-        mTopTotalMinutosMasRato.setText(topContactoMasRato.getTotalMinutos() + "  en total");
+        mTopTotalMinutosMasRato.setText(topContactoMasRato.getTotalMinutos() + getString(R.string.en_total_espacio));
 
         if (topContactoMasRato.getImagen() != null)
             mImagenContactoMasRato.setImageBitmap(getRoundedShape(topContactoMasRato.getImagen()));
@@ -415,7 +420,7 @@ public class MainActivity extends ActionBarActivity
 
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            mMesSeleccionado = Meses.setPosicionMes(parent.getItemAtPosition(pos).toString());
+            mMesSeleccionado = Meses.setPosicionMes(parent.getItemAtPosition(pos).toString(), getApplicationContext());
             loadData();
         }
 
@@ -426,8 +431,7 @@ public class MainActivity extends ActionBarActivity
 
     public class CustomOnItemSelectedListener2 implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            String pos2 = parent.getItemAtPosition(pos).toString();
-            mAñoSeleccionado = Integer.parseInt(pos2);
+            mAñoSeleccionado = Integer.parseInt(parent.getItemAtPosition(pos).toString());
             //mAñoSeleccionado = Años.setPosicionAño(parent.getItemAtPosition(pos).toString());
             loadData();
         }

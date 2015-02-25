@@ -1,42 +1,34 @@
 package com.dsole.controldellamadas.ui;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dsole.controldellamadas.R;
-import com.dsole.controldellamadas.classes.CallLog;
 import com.dsole.controldellamadas.classes.Ciclo;
 import com.dsole.controldellamadas.providers.CallLogHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -290,10 +282,47 @@ public class Busquedas extends ActionBarActivity implements View.OnClickListener
         i.putExtra("RECIBIDAS", mRecibidas.isChecked());
         i.putExtra("PERDIDAS", mPerdidas.isChecked());
 
+        //AsyncTask task = new ProgressTask(this, "Buscando contactos...").execute();
+
         startActivity(i);
 
         //intent a otra activity. Pasar parámetros
         //ArrayList<CallLog> callLogs = CallLogHelper.getCallLogs(getContentResolver(), fechaInicio, fechaFinal);
+    }
+
+    public class ProgressTask extends AsyncTask<String, Void, Boolean> {
+        private Context context;
+        private String mensaje;
+        private ProgressDialog dialog;
+
+        public ProgressTask (Context context, String mensaje) {
+            this.context = context;
+            this.mensaje = mensaje;
+            this.dialog = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setMessage(mensaje);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            dialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return null;
+        }
     }
 
 }

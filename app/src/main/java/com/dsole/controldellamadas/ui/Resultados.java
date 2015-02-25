@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dsole.controldellamadas.R;
@@ -22,6 +21,10 @@ import java.util.Date;
 
 public class Resultados extends ActionBarActivity {
 
+    private ArrayList<CallLog> callLogs;
+    private RecyclerView recyclerView;
+    private TextView numLlamadas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +36,8 @@ public class Resultados extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        TextView numLlamadas = (TextView) findViewById(R.id.numLlamadas);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        numLlamadas = (TextView) findViewById(R.id.numLlamadas);
 
         String numero = "";
         String deFecha = "";
@@ -52,9 +55,9 @@ public class Resultados extends ActionBarActivity {
             aFecha = extras.getString("A_FECHA", aFecha);
             deMinutos = extras.getInt("DE_MINUTOS", deMinutos);
             aMinutos =  extras.getInt("A_MINUTOS", aMinutos);
-            realizadas = extras.getBoolean("REALIZADAS", realizadas);
-            recibidas = extras.getBoolean("RECIBIDAS", recibidas);
-            perdidas = extras.getBoolean("PERDIDAS", perdidas);
+            realizadas = extras.getBoolean("REALIZADAS", true);
+            recibidas = extras.getBoolean("RECIBIDAS", true);
+            perdidas = extras.getBoolean("PERDIDAS", true);
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -71,12 +74,12 @@ public class Resultados extends ActionBarActivity {
             aFecha = new SimpleDateFormat("yyyy-MM-dd").format(date2);
         }
 
-        ArrayList<CallLog> callLogs = CallLogHelper.getCallLogs(getContentResolver(),deFecha, aFecha,
+        callLogs = CallLogHelper.getCallLogs(getApplicationContext(), getContentResolver(),deFecha, aFecha,
                 numero, realizadas, recibidas, perdidas, deMinutos, aMinutos);
 
         int cont = callLogs.size();
-        if(cont == 1) numLlamadas.setText("1 llamada encontrada");
-        else numLlamadas.setText(String.valueOf(cont) + " llamadas encontradas");
+        if(cont == 1) numLlamadas.setText(getString(R.string.una_llamada_encontrada));
+        else numLlamadas.setText(String.valueOf(cont) + getString(R.string.llamadas_encontradas_espacio));
 
         ResultadosAdapter adapter = new ResultadosAdapter(this, callLogs,R.layout.card);
 
@@ -84,7 +87,9 @@ public class Resultados extends ActionBarActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this,1));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
     }
+
 
 
     @Override

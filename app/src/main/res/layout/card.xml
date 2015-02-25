@@ -13,20 +13,19 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imagen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
         </LinearLayout>
 
 
@@ -41,7 +40,7 @@
                 android:id="@+id/fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fecha"
+                android:text="@string/fecha"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
@@ -50,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:text="Desconocido"
+                android:text="@string/desconocido"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -60,26 +59,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:text="Número"
+                android:text="@string/numero"
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tiempo"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="tiempo"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tiempo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tiempo"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <TextView
+                        android:id="@+id/tipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/tipo"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tipo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="tipo"
-                android:textColor="@color/textColor"
-                android:textSize="16sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

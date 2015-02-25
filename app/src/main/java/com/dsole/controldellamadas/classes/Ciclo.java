@@ -1,5 +1,9 @@
 package com.dsole.controldellamadas.classes;
 
+import android.content.Context;
+
+import com.dsole.controldellamadas.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,7 +16,6 @@ import java.util.TimeZone;
 public class Ciclo {
 
     public static String fechaPrimerDiaCiclo(int primerDiaCiclo, int mes, int año) {
-        String res;
 
         String d = "00" + String.valueOf(primerDiaCiclo);
         d = d.substring(d.length() - 2);
@@ -28,7 +31,6 @@ public class Ciclo {
     }
 
     public static String fechaUltimoDiaCiclo(int primerDiaCiclo, int mes, int año) {
-        String res = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String fechaPrimerDiaCiclo = fechaPrimerDiaCiclo(primerDiaCiclo, mes, año);
@@ -97,7 +99,7 @@ public class Ciclo {
         return res;
     }
 
-    public static String formatFecha(String fechaInicio, String fechaFinal) {
+    public static String formatFecha(String fechaInicio, String fechaFinal, Context c) {
         String res = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -119,10 +121,10 @@ public class Ciclo {
             sdf = new SimpleDateFormat("MMMMMMMMMMMMMMM");
             String mesFinal = sdf.format(date2);
 
-            if(mesFinal == mesFinal) {
-                res = "del " + String.valueOf(diaInicio) + " al " + String.valueOf(diaFinal) + " de " + mesFinal;
+            if(mesInicio.equals(mesFinal)) {
+                res = c.getString(R.string.del_espacio) + String.valueOf(diaInicio) + c.getString(R.string.al_espacios) + String.valueOf(diaFinal) + c.getString(R.string.de_espacios) + mesFinal;
             } else {
-                res = "del " + String.valueOf(diaInicio) + " de " + mesInicio + " al " + String.valueOf(diaFinal) + " de " + mesFinal;
+                res = c.getString(R.string.del_espacio) + String.valueOf(diaInicio) + c.getString(R.string.de_espacios) + mesInicio + c.getString(R.string.al_espacios) + String.valueOf(diaFinal) + c.getString(R.string.de_espacios) + mesFinal;
             }
 
 

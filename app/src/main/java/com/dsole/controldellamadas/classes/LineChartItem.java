@@ -9,7 +9,6 @@ import com.dsole.controldellamadas.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.utils.ValueFormatter;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 
@@ -54,7 +53,7 @@ public class LineChartItem extends ChartItem {
         // apply styling
         // holder.chart.setValueTypeface(mTf);
         holder.chart.setDrawYValues(false);
-        holder.chart.setDescription("Consumo en minutos");
+        holder.chart.setDescription(c.getString(R.string.consumo_en_minutos));
         holder.chart.setDrawVerticalGrid(false);
         holder.chart.setDrawGridBackground(false);
 
@@ -80,7 +79,7 @@ public class LineChartItem extends ChartItem {
         // holder.chart.invalidate();
         holder.chart.animateX(1000);
 
-        holder.chart.setUnit(" m");
+        holder.chart.setUnit(c.getString(R.string.m_espacio));
         holder.chart.setDrawUnitsInChart(true);
 
         return convertView;

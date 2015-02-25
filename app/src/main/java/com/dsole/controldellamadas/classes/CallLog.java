@@ -1,10 +1,9 @@
 package com.dsole.controldellamadas.classes;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import com.dsole.controldellamadas.R;
 
 /**
  * Created by dsole on 29/12/2014.
@@ -45,8 +44,8 @@ public class CallLog {
         return imagen;
     }
 
-    public void setName(String name) {
-        if(name == null) this.name = "Desconocido";
+    public void setName(String name, Context c) {
+        if(name == null) this.name = c.getString(R.string.desconocido);
         else this.name = name;
     }
 
@@ -69,11 +68,11 @@ public class CallLog {
         this.date = date;
     }
 
-    public void setType(String type) {
+    public void setType(String type, Context c) {
         this.type = type;
-        if (type.equals("1")) this.type = "Llamada entrante";
-        else if (type.equals("2")) this.type = "Llamada saliente";
-        else this.type = "Llamada perdida";
+        if (type.equals("1")) this.type = c.getString(R.string.llamada_entrante);
+        else if (type.equals("2")) this.type = c.getString(R.string.llamada_saliente);
+        else this.type = c.getString(R.string.llamada_perdida);
     }
 
     public void setImagen(Bitmap imagen) {

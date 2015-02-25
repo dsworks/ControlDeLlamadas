@@ -17,21 +17,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
         android:id="@+id/numLlamadas"
-        android:text="hola"
         android:textSize="20sp"
         android:textColor="@android:color/black"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"/>
 
-    <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
 
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/numLlamadas"
-        android:layout_gravity="center"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp" />
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/numLlamadas"
+            android:layout_gravity="center"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp" />
 
-</RelativeLayout>
+    </RelativeLayout>

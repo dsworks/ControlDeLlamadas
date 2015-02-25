@@ -24,8 +24,8 @@ public class NumberPickerAvisoMinutosPreference extends DialogPreference {
 
     public NumberPickerAvisoMinutosPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPositiveButtonText("OK");
-        setNegativeButtonText("CANCELAR");
+        setPositiveButtonText(context.getString(R.string.ok));
+        setNegativeButtonText(context.getString(R.string.cancelar));
 
 
 /*
