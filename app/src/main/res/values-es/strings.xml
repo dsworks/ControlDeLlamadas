@@ -7,7 +7,7 @@
     <string name="title_activity_preference">Ajustes</string>
     <string name="title_activity_busquedas">Búsquedas</string>
     <string name="title_activity_resultados">Resultados</string>
-    <string name="title_activity_graficas">Graficas</string>
+    <string name="title_activity_graficas">Gráficas</string>
     <string name="title_activity_acerca_de">Acerca de</string>
     <string name="texto_acerca_de">Control de llamadas es una aplicación que le servirá para llevar un control de las llamadas que realiza
         y las llamadas que recibe así como saber cuantas llamadas realiza al mes, qué contactos le llaman más, a qué contacto llama más, etc.
@@ -17,7 +17,7 @@
     <string name="desconocido">Desconocido</string>
     <string name="numero_abreviado">Nº:</string>
     <string name="fecha">Fecha</string>
-    <string name="numero">Number</string>
+    <string name="numero">Número</string>
     <string name="de_fecha">De fecha</string>
     <string name="a_fecha">A fecha</string>
     <string name="tiempo">tiempo</string>
@@ -66,10 +66,10 @@
     <string name="cancelar">CANCELAR</string>
     <string name="consumo_en_minutos">Consumo en minutos</string>
     <string name="del_espacio">"del "</string>
-    <string name="llamada_entrante">Llamada entrante</string>
-    <string name="llamada_saliente">Llamada saliente</string>
+    <string name="llamada_entrante">Llamada recibida</string>
+    <string name="llamada_saliente">Llamada realizada</string>
     <string name="llamada_perdida">Llamada perdida</string>
-    <string name="bienvenido">!Bienvenido!</string>
+    <string name="bienvenido">¡Bienvenido!</string>
     <string name="mensaje_bienvenida">Rellene las preferencias de usuario para que la aplicación le envíe notificaciones de cuando esté a punto de llegar al limite de minutos al mes</string>
     <string name="top_cinco_contactos">Top 5 Contactos a los que más llevas llamando (anualmente)</string>
     <string name="Enero">Enero</string>
@@ -96,6 +96,16 @@
     <string name="Octubre_abreviado">Oct.</string>
     <string name="Noviembre_abreviado">Nov.</string>
     <string name="Diciembre_abreviado">Dic.</string>
+    <string name="preferencias_dia_ciclo_summary">Elige el día en el que empezará cada ciclo</string>
+    <string name="preferencias_dia_ciclo_titulo">Día ciclo facturación</string>
+    <string name="preferencias_enviar_notif_summary">Elijge si deseas que la aplicación te envíe notificaciones</string>
+    <string name="preferencias_enviar_notif_titulo">Enviar notificaciones</string>
+    <string name="preferencias_limite_minutos_summary">Define el límite de minutos que tienes contratado al mes</string>
+    <string name="preferencias_limite_minutos_titulo">Límite minutos al mes</string>
+    <string name="preferencias_limite_minutos_dialog">Minutos</string>
+    <string name="preferencias_limite_minutos_aviso_summary">Define los minutos a partir de cuando quieres que se te notifique que se acerca al límite</string>
+    <string name="preferencias_limite_minutos_aviso_titulo">Aviso límite minutos</string>
+    <string name="preferencias_limite_minutos_aviso_dialog">Minutos</string>
 
 
 </resources>
